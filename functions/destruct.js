@@ -17,4 +17,16 @@ const destructureMessage = (string) => {
     return pairs;
 };
 
-module.exports = { destructureMessage };
+
+const checkMessage = (message) => {
+
+    const format = /^[\w\d]{6}#(\d+(\.\d+)?)#(\d+(\.\d+)?)#(true|false)#(true|false)#(true|false)$/;
+    if (format.test(message)) {
+        return true;
+    }
+    return false;
+};
+
+
+
+module.exports = { destructureMessage, checkMessage };

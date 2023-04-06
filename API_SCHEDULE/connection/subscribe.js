@@ -1,5 +1,5 @@
 // const mqtt = require('mqtt');
-const { destructureMessage } = require('../../functions/destruct');
+const { destructureMessage, checkMessage } = require('../../functions/destruct');
 const { stringToBool } = require('../../functions/timeConvertion');
 const prisma = require('../../prisma/client');
 
@@ -14,58 +14,44 @@ client.on("connect", async () => {
 
 client.on("message", async (topic, payload) => {
     const deviceId = topic.split("/")[1];
-    const message = destructureMessage(payload.toString());
-    console.log(message);
-    // const { id, temp, humd, uv, food, drink } = message;
-    let [id, temp, humd, uv, food, drink] = message;
+    let check = checkMessage(payload.toString());
+    if (check === false) {
+        // console.log("wrong data format!");
+        return null;
+    } else {
 
-    // console.log(id);
+        const message = destructureMessage(payload.toString());
+        console.log(message);
 
-    const updateData = await prisma.device.update({
-        where: {
-            deviceID: deviceId
-        },
-        data: {
-            temp: temp,
-            humd: humd,
-            uv: stringToBool(uv),
-            food: stringToBool(food),
-            drink: stringToBool(drink)
-        }
-    });
 
-    const lastData = await prisma.history.findFirst({
-        where: {
-            Device: {
-                deviceID: id
-            }
-        },
-        orderBy: {
-            createdAt: "desc"
-        }
-    });
+        let [id, temp, humd, uv, food, drink] = message;
 
-    if (lastData === null) {
-        const historyData = await prisma.history.create({
+
+        const updateData = await prisma.device.update({
+            where: {
+                deviceID: deviceId
+            },
             data: {
                 temp: temp,
                 humd: humd,
                 uv: stringToBool(uv),
                 food: stringToBool(food),
-                drink: stringToBool(drink),
-                Device: {
-                    connect: {
-                        deviceID: id
-                    }
-                }
+                drink: stringToBool(drink)
             }
         });
-    }
 
+        const lastData = await prisma.history.findFirst({
+            where: {
+                Device: {
+                    deviceID: id
+                }
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+        });
 
-    if (lastData !== null) {
-        const timeDiff = (Date.now() - lastData.createdAt) / 1000 / 60;
-        if (timeDiff >= 0.5) {
+        if (lastData === null) {
             const historyData = await prisma.history.create({
                 data: {
                     temp: temp,
@@ -80,6 +66,27 @@ client.on("message", async (topic, payload) => {
                     }
                 }
             });
+        }
+
+
+        if (lastData !== null) {
+            const timeDiff = (Date.now() - lastData.createdAt) / 1000 / 60;
+            if (timeDiff >= 0.5) {
+                const historyData = await prisma.history.create({
+                    data: {
+                        temp: temp,
+                        humd: humd,
+                        uv: stringToBool(uv),
+                        food: stringToBool(food),
+                        drink: stringToBool(drink),
+                        Device: {
+                            connect: {
+                                deviceID: id
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
