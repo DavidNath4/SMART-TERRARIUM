@@ -1,9 +1,10 @@
-const mqtt = require('mqtt');
+// const mqtt = require('mqtt');
 const { destructureMessage } = require('../../functions/destruct');
+const { stringToBool } = require('../../functions/timeConvertion');
 const prisma = require('../../prisma/client');
 
-const client = mqtt.connect(process.env.MQTT_URL);
-// const client = require('./defConnection');
+// const client = mqtt.connect(process.env.MQTT_URL);
+const client = require('./defConnection');
 const topic = process.env.TOPIC;
 
 client.on("connect", async () => {
@@ -15,7 +16,10 @@ client.on("message", async (topic, payload) => {
     const deviceId = topic.split("/")[1];
     const message = destructureMessage(payload.toString());
     console.log(message);
-    const { id, temp, humd, uv, food, drink } = message;
+    // const { id, temp, humd, uv, food, drink } = message;
+    let [id, temp, humd, uv, food, drink] = message;
+
+    // console.log(id);
 
     const updateData = await prisma.device.update({
         where: {
@@ -24,9 +28,9 @@ client.on("message", async (topic, payload) => {
         data: {
             temp: temp,
             humd: humd,
-            uv: uv,
-            food: food,
-            drink: drink
+            uv: stringToBool(uv),
+            food: stringToBool(food),
+            drink: stringToBool(drink)
         }
     });
 
@@ -46,9 +50,9 @@ client.on("message", async (topic, payload) => {
             data: {
                 temp: temp,
                 humd: humd,
-                uv: uv,
-                food: food,
-                drink: drink,
+                uv: stringToBool(uv),
+                food: stringToBool(food),
+                drink: stringToBool(drink),
                 Device: {
                     connect: {
                         deviceID: id
@@ -61,15 +65,14 @@ client.on("message", async (topic, payload) => {
 
     if (lastData !== null) {
         const timeDiff = (Date.now() - lastData.createdAt) / 1000 / 60;
-        if (timeDiff >= 1) {
+        if (timeDiff >= 0.5) {
             const historyData = await prisma.history.create({
                 data: {
                     temp: temp,
                     humd: humd,
-                    uv: uv,
-                    food: food,
-                    drink: drink,
-                    // deviceId: id,
+                    uv: stringToBool(uv),
+                    food: stringToBool(food),
+                    drink: stringToBool(drink),
                     Device: {
                         connect: {
                             deviceID: id
