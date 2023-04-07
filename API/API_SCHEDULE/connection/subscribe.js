@@ -1,9 +1,8 @@
-// const mqtt = require('mqtt');
-const { destructureMessage, checkMessage } = require('../../functions/destruct');
-const { stringToBool } = require('../../functions/timeConvertion');
-const prisma = require('../../prisma/client');
+const { destructureMessage, checkMessage } = require('../../../functions/destruct');
+const { stringToBool } = require('../../../functions/timeConvertion');
+const prisma = require('../../../prisma/client');
 
-// const client = mqtt.connect(process.env.MQTT_URL);
+
 const client = require('./defConnection');
 const topic = process.env.TOPIC;
 
@@ -16,7 +15,6 @@ client.on("message", async (topic, payload) => {
     const deviceId = topic.split("/")[1];
     let check = checkMessage(payload.toString());
     if (check === false) {
-        // console.log("wrong data format!");
         return null;
     } else {
 

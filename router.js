@@ -1,8 +1,8 @@
 const express = require("express");
-const userRouter = require("../SMART-TERRARIUM/API_USER/router");
-const deviceRouter = require("../SMART-TERRARIUM/API_DEVICE/router");
-const historyRouter = require('../SMART-TERRARIUM/API_HISTORY/router');
-const scheduleRouter = require('../SMART-TERRARIUM/API_SCHEDULE/router');
+const userRouter = require("./API/API_USER/router");
+const deviceRouter = require("./API/API_DEVICE/router");
+const historyRouter = require('./API/API_HISTORY/router');
+const scheduleRouter = require('./API/API_SCHEDULE/router');
 const router = express.Router();
 
 router.use("/user", userRouter);

@@ -1,8 +1,8 @@
-const prisma = require("../prisma/client");
+const prisma = require("../../prisma/client");
 const jwt = require("jsonwebtoken");
 
-const { comparePassword, hashPassword } = require('../functions/hashing');
-const { generateToken } = require("../functions/authorization");
+const { comparePassword, hashPassword } = require('../../functions/hashing');
+const { generateToken } = require("../../functions/authorization");
 
 const registerUser = async (req, res) => {
 

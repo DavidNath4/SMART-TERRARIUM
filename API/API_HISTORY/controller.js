@@ -1,4 +1,4 @@
-const prisma = require('../prisma/client');
+const prisma = require('../../prisma/client');
 
 // get all history from device id
 const deviceLog = async (req, res) => {

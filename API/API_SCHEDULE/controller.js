@@ -1,7 +1,6 @@
-// const mqtt = require('mqtt');
-const { dateToInteger, stringToBool } = require('../functions/timeConvertion');
-const prisma = require('../prisma/client');
-// const client = mqtt.connect(process.env.MQTT_URL);
+const { dateToInteger, stringToBool } = require('../../functions/timeConvertion');
+const prisma = require('../../prisma/client');
+
 const client = require('./connection/defConnection');
 const topic = process.env.TOPIC_PUB;
 

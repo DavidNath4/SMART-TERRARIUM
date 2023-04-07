@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const ROUTER = require("./router");
-require('./API_SCHEDULE/connection/subscribe');
+require('./API/API_SCHEDULE/connection/subscribe');
 
 const app = express();
 const PORT = process.env.PORT || 8080;

@@ -1,6 +1,6 @@
-const prisma = require('../prisma/client');
-const { randomId, randomPin } = require('../functions/device');
-const { hashPassword } = require('../functions/hashing');
+const prisma = require('../../prisma/client');
+const { randomId, randomPin } = require('../../functions/device');
+const { hashPassword } = require('../../functions/hashing');
 
 
 // function intial device

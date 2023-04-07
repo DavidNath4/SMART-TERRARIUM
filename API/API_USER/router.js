@@ -1,10 +1,10 @@
 const user = require("./controller");
 const { body, query, param } = require('express-validator');
-const { isUsernameExist, isUsernameAvailable } = require("../middleware/usernameChecker");
-const { isPasswordConfirmed } = require("../middleware/passwordChecker");
-const { isEmailExist, isEmailAvailable } = require("../middleware/emailChecker");
-const { formChecker } = require("../middleware/formChecker");
-const { verifyToken } = require("../middleware/authentication");
+const { isUsernameExist, isUsernameAvailable } = require("../../middleware/usernameChecker");
+const { isPasswordConfirmed } = require("../../middleware/passwordChecker");
+const { isEmailExist, isEmailAvailable } = require("../../middleware/emailChecker");
+const { formChecker } = require("../../middleware/formChecker");
+const { verifyToken } = require("../../middleware/authentication");
 
 const router = require('express').Router();
 
