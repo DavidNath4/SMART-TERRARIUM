@@ -14,4 +14,26 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-module.exports = { verifyToken };
+
+const loginRequired = async (req, res, next) => {
+    if (req.cookies.Authorization) {
+        next();
+    } else {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+};
+
+const logoutRequired = (req, res, next) => {
+    if (req.cookies.Authorization) {
+        return res.status(401).json({ msg: "You are already logged in, please Log out first" });
+    } else {
+        next();
+    }
+};
+
+
+module.exports = {
+    verifyToken,
+    loginRequired,
+    logoutRequired
+};

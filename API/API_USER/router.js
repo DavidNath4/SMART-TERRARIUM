@@ -4,7 +4,7 @@ const { isUsernameExist, isUsernameAvailable } = require("../../middleware/usern
 const { isPasswordConfirmed } = require("../../middleware/passwordChecker");
 const { isEmailExist, isEmailAvailable } = require("../../middleware/emailChecker");
 const { formChecker } = require("../../middleware/formChecker");
-const { verifyToken } = require("../../middleware/authentication");
+const { verifyToken, loginRequired, logoutRequired } = require("../../middleware/authentication");
 
 const router = require('express').Router();
 
@@ -26,8 +26,14 @@ router.post("/register",
 
     user.registerUser);
 
-router.post("/login", user.loginUser);
-router.get("/logout", user.logoutUser);
+router.post("/login",
+    logoutRequired,
+    user.loginUser);
+
+router.get("/logout",
+    loginRequired,
+    user.logoutUser);
+
 router.get("/", verifyToken, user.detail);
 
 

@@ -89,8 +89,42 @@ const devices = async (req, res) => {
 };
 
 
+// get device by user
+const device_get = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const data = await prisma.device.findMany({
+            where: {
+                userId: id
+            },
+            select: {
+                deviceID: true,
+                User: {
+                    select: {
+                        username: true
+                    }
+                }
+            }
+        });
+
+        if (!data) {
+            res.status(400).json({ error: 'No Device' });
+        }
+        return res.status(200).json({
+            msg: "Successfull get all device",
+            data: data
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Unable to retrieve devices.' });
+    }
+
+};
+
+
 module.exports = {
     device_init,
     device_pair,
+    device_get,
     devices
 };
