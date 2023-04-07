@@ -58,7 +58,27 @@ const isDevicePaired = async (req, res, next) => {
 
 };
 
+const isDeviceExist = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const data = await prisma.device.findUnique({
+            where: {
+                deviceID: id
+            }
+        });
+        if (!data) {
+            return res.status(404).json({ msg: "Device not found!" });
+        }
+        return next();
+    } catch (err) {
+        return res.status(500).json({ msg: "Internal server error" });
+    }
+
+};
+
 module.exports = {
     deviceIdPinChecker,
-    isDevicePaired
+    isDevicePaired,
+    isDeviceExist
 };
