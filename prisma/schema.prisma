@@ -43,7 +43,7 @@ model Device {
   schedule1 String?
   schedule2 String?
   isAuto    Boolean?
-  User      User?     @relation(fields: [userId], references: [id])
+  User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
   history   History[]
   createdAt DateTime  @default(now())
@@ -57,7 +57,7 @@ model History {
   uv        Boolean
   food      Boolean
   drink     Boolean
-  Device    Device?  @relation(fields: [deviceId], references: [id])
+  Device    Device?  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   deviceId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

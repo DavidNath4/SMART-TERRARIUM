@@ -27,7 +27,7 @@ client.on("message", async (topic, payload) => {
 
         const updateData = await prisma.device.update({
             where: {
-                deviceID: deviceId
+                deviceID: id
             },
             data: {
                 temp: temp,
