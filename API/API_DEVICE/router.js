@@ -12,6 +12,8 @@ router.post('/pair',
 
 router.get("/devices", device.devices);
 
-router.get('/device/:id', device.device_get);
+router.get('/:id', device.device_get);
+
+router.get("/unpair/:id", device.device_unpair);
 
 module.exports = router;

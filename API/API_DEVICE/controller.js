@@ -122,9 +122,38 @@ const device_get = async (req, res) => {
 };
 
 
+// function unpairing device
+const device_unpair = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const data = await prisma.device.update({
+            where: {
+                deviceID: id
+            },
+            data: {
+                User: {
+                    disconnect: true
+                }
+            }
+
+        });
+        return res.status(200).json({
+            msg: "Device Successfully Unpaired!",
+            data: data
+        });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json(error.message);
+    }
+};
+
+
+
 module.exports = {
     device_init,
     device_pair,
+    device_unpair,
     device_get,
     devices
 };
