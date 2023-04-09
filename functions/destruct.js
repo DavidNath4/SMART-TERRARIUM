@@ -1,3 +1,5 @@
+const { dateToInteger } = require("./timeConvertion");
+
 const destructureMessage = (string) => {
     const pairs = string.split('#');
     return pairs;
@@ -18,6 +20,25 @@ function checkTopic(message) {
     return regex.test(message);
 }
 
+function verifyTimeFormat(timeString) {
+    const regex = /^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+    return regex.test(timeString);
+}
 
+function generateTopicWithDeviceID(topic, deviceID) {
+    const [front, , back] = topic.split("/");
+    return `${front}/${deviceID}/${back}`;
+}
 
-module.exports = { destructureMessage, checkMessage, checkTopic };
+function generateMessage(schedule1, schedule2, mode) {
+    return `${dateToInteger(schedule1)}#${dateToInteger(schedule2)}#${mode}`;
+}
+
+module.exports = {
+    destructureMessage,
+    checkMessage,
+    checkTopic,
+    verifyTimeFormat,
+    generateTopicWithDeviceID,
+    generateMessage
+};

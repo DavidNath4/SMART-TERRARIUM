@@ -20,3 +20,4 @@ update:
 - device_rename
 - error handling subscribe
 - change params publish schedule
+- add formatSchedule middleware

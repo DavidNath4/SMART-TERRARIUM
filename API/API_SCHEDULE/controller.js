@@ -1,3 +1,4 @@
+const { generateTopicWithDeviceID, generateMessage } = require('../../functions/destruct');
 const { dateToInteger, stringToBool } = require('../../functions/timeConvertion');
 const prisma = require('../../prisma/client');
 
@@ -8,7 +9,7 @@ const publishSchedule = async (req, res) => {
     try {
         let { schedule1, schedule2, mode } = req.body;
         const { deviceID } = req.params;
-        console.log(id);
+        console.log(deviceID);
 
         const updateData = await prisma.device.update({
             where: {
@@ -27,9 +28,11 @@ const publishSchedule = async (req, res) => {
                 error: "Device not found"
             });
         }
-        const [front, , back] = topic.split("/");
-        const uniqueTopic = `${front}/${id}/${back}`;
-        const message = `${dateToInteger(schedule1)}#${dateToInteger(schedule2)}#${mode}`;
+        // const [front, , back] = topic.split("/");
+        // const uniqueTopic = `${front}/${deviceID}/${back}`;
+        // const message = `${dateToInteger(schedule1)}#${dateToInteger(schedule2)}#${mode}`;
+        const uniqueTopic = generateTopicWithDeviceID(topic, deviceID);
+        const message = generateMessage(schedule1, schedule2, mode);
 
 
         client.publish(uniqueTopic, message);

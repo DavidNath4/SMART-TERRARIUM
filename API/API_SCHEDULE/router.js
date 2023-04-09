@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { verifyToken } = require('../../middleware/authentication');
+const { formatSchedule } = require('../../middleware/scheduleChecker');
 const publish = require('./controller');
 
-router.put('/publish/:deviceID', verifyToken, publish.publishSchedule);
+router.put('/publish/:deviceID', formatSchedule, publish.publishSchedule);
 
 module.exports = router;
