@@ -1,4 +1,4 @@
-const { destructureMessage, checkMessage } = require('../../../functions/destruct');
+const { destructureMessage, checkMessage, checkTopic } = require('../../../functions/destruct');
 const { stringToBool } = require('../../../functions/timeConvertion');
 const prisma = require('../../../prisma/client');
 
@@ -12,22 +12,28 @@ client.on("connect", async () => {
 });
 
 client.on("message", async (topic, payload) => {
-    const deviceId = topic.split("/")[1];
-    let check = checkMessage(payload.toString());
-    if (check === false) {
-        return null;
-    } else {
+
+    try {
+        const deviceId = topic.split("/")[1];
+
+        if (!checkMessage(payload.toString())) {
+            throw new Error("Invalid payload format");
+        }
+
+        if (!checkTopic(topic)) {
+            throw new Error("Invalid topic format");
+        }
 
         const message = destructureMessage(payload.toString());
         console.log(message);
 
 
-        let [id, temp, humd, uv, food, drink] = message;
+        const [id, temp, humd, uv, food, drink] = message;
 
 
         const updateData = await prisma.device.update({
             where: {
-                deviceID: id
+                deviceID: deviceId
             },
             data: {
                 temp: temp,
@@ -41,7 +47,7 @@ client.on("message", async (topic, payload) => {
         const lastData = await prisma.history.findFirst({
             where: {
                 Device: {
-                    deviceID: id
+                    deviceID: deviceId
                 }
             },
             orderBy: {
@@ -59,7 +65,7 @@ client.on("message", async (topic, payload) => {
                     drink: stringToBool(drink),
                     Device: {
                         connect: {
-                            deviceID: id
+                            deviceID: deviceId
                         }
                     }
                 }
@@ -69,7 +75,7 @@ client.on("message", async (topic, payload) => {
 
         if (lastData !== null) {
             const timeDiff = (Date.now() - lastData.createdAt) / 1000 / 60;
-            if (timeDiff >= 0.5) {
+            if (timeDiff >= 1) {
                 const historyData = await prisma.history.create({
                     data: {
                         temp: temp,
@@ -79,13 +85,16 @@ client.on("message", async (topic, payload) => {
                         drink: stringToBool(drink),
                         Device: {
                             connect: {
-                                deviceID: id
+                                deviceID: deviceId
                             }
                         }
                     }
                 });
             }
         }
+
+    } catch (error) {
+        console.log(error.message);
     }
 
 });

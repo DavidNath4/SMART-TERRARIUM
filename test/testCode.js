@@ -1,4 +1,4 @@
-const value = "xKY3p7#32#70#true#false#false";
+const value = "PNJ/FHhMO1/TERRA";
 
 
 
@@ -15,4 +15,10 @@ const checkMessage = (message) => {
 };
 
 
-console.log(checkMessage(value));
+function checkTopic(message) {
+    const regex = /^PNJ\/[A-Za-z0-9]{6}\/TERRA$/;
+    return regex.test(message);
+}
+
+
+console.log(checkTopic(value));

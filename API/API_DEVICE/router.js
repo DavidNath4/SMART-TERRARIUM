@@ -16,4 +16,6 @@ router.get('/:id', device.device_get);
 
 router.get("/unpair/:id", device.device_unpair);
 
+router.put("/rename/:id", device.device_rename);
+
 module.exports = router;

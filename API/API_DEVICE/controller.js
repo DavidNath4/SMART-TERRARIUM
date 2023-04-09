@@ -40,6 +40,7 @@ const device_pair = async (req, res) => {
                 deviceID: deviceID,
             },
             data: {
+                deviceName: deviceID + "TERRARIUM",
                 User: {
                     connect: {
                         id: req.id
@@ -148,12 +149,36 @@ const device_unpair = async (req, res) => {
     }
 };
 
+// update terrarium name
 
+const device_rename = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { deviceName } = req.body;
+        const data = await prisma.device.update({
+            where: {
+                deviceID: id
+            },
+            data: {
+                deviceName: deviceName
+            }
+        });
+
+        return res.status(200).json({
+            msg: "Device Successfully Rename!",
+            data: data.deviceName
+        });
+
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+};
 
 module.exports = {
     device_init,
     device_pair,
     device_unpair,
     device_get,
+    device_rename,
     devices
 };

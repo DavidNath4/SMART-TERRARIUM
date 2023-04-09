@@ -1,18 +1,4 @@
 const destructureMessage = (string) => {
-    // const pairs = string.split(',').filter(pair => pair.trim().length > 0);
-    // const Json = {};
-    // for (const pair of pairs) {
-    //     const [key, value] = pair.split('-');
-    //     // if (!isNaN(value)) {
-    //     //     Json[key] = Number(value);
-    //     // } else 
-    //     if (value === 'true' || value === 'false') {
-    //         Json[key] = value === 'true';
-    //     } else {
-    //         Json[key] = value;
-    //     }
-    // }
-    // return Json;
     const pairs = string.split('#');
     return pairs;
 };
@@ -27,6 +13,11 @@ const checkMessage = (message) => {
     return false;
 };
 
+function checkTopic(message) {
+    const regex = /^PNJ\/[A-Za-z0-9]{6}\/TERRA$/;
+    return regex.test(message);
+}
 
 
-module.exports = { destructureMessage, checkMessage };
+
+module.exports = { destructureMessage, checkMessage, checkTopic };

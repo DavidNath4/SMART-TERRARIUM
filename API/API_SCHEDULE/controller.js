@@ -7,12 +7,12 @@ const topic = process.env.TOPIC_PUB;
 const publishSchedule = async (req, res) => {
     try {
         let { schedule1, schedule2, mode } = req.body;
-        const { id } = req.params;
+        const { deviceID } = req.params;
         console.log(id);
 
         const updateData = await prisma.device.update({
             where: {
-                deviceID: id
+                deviceID: deviceID
             },
             data: {
                 schedule1: schedule1,
