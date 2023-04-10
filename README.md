@@ -21,3 +21,10 @@ update:
 - error handling subscribe
 - change params publish schedule
 - add formatSchedule middleware
+
+merge 4/10/2023
+
+commit 4/10/2023
+update:
+
+- repair verivyToken middleware
