@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
                 profile: {
                     create: {
                         fullName: username || null,
-                        image: null
+                        // image: null
                     }
                 }
 
@@ -61,7 +61,7 @@ const updateUser = async (req, res) => {
 
     try {
         const id = req.id;
-        const { username, email, password, fullName, image } = req.body;
+        const { username, email, password, fullName } = req.body;
         const hashed = await hashPassword(password);
 
         const data = await prisma.user.update({
@@ -75,7 +75,7 @@ const updateUser = async (req, res) => {
                 profile: {
                     update: {
                         fullName: fullName || null,
-                        image: image || null
+                        // image: image || null
                     }
                 }
             },
@@ -191,7 +191,7 @@ const detail = async (req, res) => {
                 profile: {
                     select: {
                         fullName: true,
-                        image: true
+                        // image: true
                     }
                 },
                 device: {

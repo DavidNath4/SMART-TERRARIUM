@@ -28,3 +28,10 @@ commit 4/10/2023
 update:
 
 - repair verivyToken middleware
+
+commit 4/13/2023
+update:
+
+- remove photo in profile table
+- add isOnline in Device table
+- add device_status function

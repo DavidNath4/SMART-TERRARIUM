@@ -34,7 +34,7 @@ router.get("/logout",
     loginRequired,
     user.logoutUser);
 
-router.get("/", verifyToken, user.detail);
+router.get("/session", verifyToken, user.detail);
 
 
 router.post("/update/:id",

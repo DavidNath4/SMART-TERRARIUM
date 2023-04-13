@@ -150,7 +150,6 @@ const device_unpair = async (req, res) => {
 };
 
 // update terrarium name
-
 const device_rename = async (req, res) => {
     try {
         const { id } = req.params;
@@ -174,11 +173,52 @@ const device_rename = async (req, res) => {
     }
 };
 
+//get device status
+const device_status = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const data = await prisma.history.findFirst({
+            where: {
+                Device: {
+                    deviceID: id
+                }
+            },
+            orderBy: {
+                createdAt: "desc"
+            }
+        });
+        const lastStatusTime = data.createdAt;
+        const isOnline = lastStatusTime && (Date.now() - lastStatusTime.getTime() < 5 * 60 * 1000);
+
+        const dataUpdate = await prisma.device.update({
+            where: {
+                deviceID: id
+            },
+            data: {
+                isOnline: isOnline
+            },
+            select: {
+                isOnline: true
+            }
+        });
+
+
+        return res.status(200).json({
+            msg: "Succes get Device Status!",
+            data: dataUpdate.isOnline
+        });
+    } catch (err) {
+        return res.status(500).json(err.message);
+    }
+};
+
 module.exports = {
     device_init,
     device_pair,
     device_unpair,
     device_get,
     device_rename,
+    device_status,
     devices
 };

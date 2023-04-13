@@ -23,7 +23,7 @@ model User {
 
 model Profile {
   id        String   @id @default(cuid())
-  image     String?
+  // image     String?
   fullName  String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -44,6 +44,7 @@ model Device {
   schedule1  String?
   schedule2  String?
   isAuto     Boolean?
+  isOnline   Boolean?
   User       User?     @relation(fields: [userId], references: [id])
   userId     String?
   history    History[]

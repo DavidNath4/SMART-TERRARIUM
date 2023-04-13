@@ -4,6 +4,7 @@ const { deviceIdPinChecker, isDevicePaired } = require('../../middleware/deviceC
 const device = require('./controller');
 
 router.get('/initialization', device.device_init);
+
 router.post('/pair',
     verifyToken,
     deviceIdPinChecker,
@@ -12,10 +13,12 @@ router.post('/pair',
 
 router.get("/devices", device.devices);
 
-router.get('/:id', device.device_get);
+router.get('/devices/:id', device.device_get);
 
 router.get("/unpair/:id", device.device_unpair);
 
 router.put("/rename/:id", device.device_rename);
+
+router.get('/status/:id', device.device_status);
 
 module.exports = router;
