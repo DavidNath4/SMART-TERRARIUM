@@ -15,6 +15,11 @@ client.on("message", async (topic, payload) => {
 
     try {
         const deviceId = topic.split("/")[1];
+        const message = destructureMessage(payload.toString());
+        console.log(message);
+
+
+        const [id, temp, humd, uv, food, drink] = message;
 
         if (!checkMessage(payload.toString())) {
             throw new Error("Invalid payload format");
@@ -24,12 +29,9 @@ client.on("message", async (topic, payload) => {
             throw new Error("Invalid topic format");
         }
 
-        const message = destructureMessage(payload.toString());
-        console.log(message);
-
-
-        const [id, temp, humd, uv, food, drink] = message;
-
+        if (!(deviceId === id)) {
+            throw new Error("Invalid deviceID or topic");
+        }
 
         const updateData = await prisma.device.update({
             where: {

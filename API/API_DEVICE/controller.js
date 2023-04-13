@@ -1,7 +1,8 @@
 const prisma = require('../../prisma/client');
 const { randomId, randomPin } = require('../../functions/device');
 const { hashPassword } = require('../../functions/hashing');
-
+const client = require('../API_SCHEDULE/connection/defConnection');
+let lastStatusTime = new Date();
 
 // function intial device
 const device_init = async (req, res) => {
@@ -94,7 +95,8 @@ const devices = async (req, res) => {
 const device_get = async (req, res) => {
 
     try {
-        const { id } = req.params;
+        const id = req.id;
+
         const data = await prisma.device.findMany({
             where: {
                 userId: id
@@ -173,22 +175,15 @@ const device_rename = async (req, res) => {
     }
 };
 
+client.on('message', async (topic, payload) => {
+    lastStatusTime = new Date();
+});
+
 //get device status
 const device_status = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const data = await prisma.history.findFirst({
-            where: {
-                Device: {
-                    deviceID: id
-                }
-            },
-            orderBy: {
-                createdAt: "desc"
-            }
-        });
-        const lastStatusTime = data.createdAt;
         const isOnline = lastStatusTime && (Date.now() - lastStatusTime.getTime() < 5 * 60 * 1000);
 
         const dataUpdate = await prisma.device.update({

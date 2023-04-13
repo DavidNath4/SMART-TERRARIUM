@@ -35,3 +35,10 @@ update:
 - remove photo in profile table
 - add isOnline in Device table
 - add device_status function
+
+commit 4/14/2023
+update:
+
+- repair device_status function
+- add new error handler on subscribe.js
+- add verivyToken middleware on get device by user function
