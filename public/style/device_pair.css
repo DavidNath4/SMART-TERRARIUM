@@ -1,0 +1,117 @@
+main {
+    padding: 0 2.5rem;
+}
+
+#pair1 {
+    aspect-ratio: 1/1;
+    background: var(--palette-4);
+    border-radius: 15px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    /* Add margin-bottom */
+    padding-top: 1rem;
+    width: 100%;
+}
+
+#pair2 {
+    aspect-ratio: 1.8/1;
+    background: var(--palette-4);
+    border-radius: 15px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    /* Add margin-top */
+    padding-top: 1rem;
+    width: 100%;
+}
+
+#pair2 h4 {
+    text-align: center;
+}
+
+
+#pair1:nth-last-child(1) {
+    margin-top: 40px;
+}
+
+#pair1 h4 {
+    text-align: center;
+}
+
+
+#form-device {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+}
+
+#form-device label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+input[type=text],
+input[type=number] {
+    background: var(--palette-3);
+    border: none;
+    border-radius: 15px;
+    box-sizing: border-box;
+    height: 40px;
+    margin-top: 0.5rem;
+    outline: none;
+    padding: 10px;
+}
+
+button[type=button] {
+    background: var(--palette-2);
+    border: none;
+    border-radius: 15px;
+    color: var(--palette-4);
+    cursor: pointer;
+    font-weight: 700;
+    height: 50px;
+    margin-top: 5rem;
+    outline: none;
+    padding: 10px;
+}
+
+button[type=button]:hover {
+    background: var(--palette-4);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color: var(--palette-2);
+}
+
+.terra {
+    background: var(--palette-3);
+    border: none;
+    border-radius: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 40px;
+    margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    outline: none;
+    padding: 10px;
+}
+
+.terra p {
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 576px) {
+    button[type=button] {
+        height: 40px;
+        margin-top: 1rem;
+    }
+
+    button[type=button]:hover {
+        background: var(--palette-2);
+        color: var(--palette-4);
+    }
+
+}

@@ -1,9 +1,0 @@
--- AlterTable
-ALTER TABLE `device` MODIFY `temp` VARCHAR(191) NULL,
-    MODIFY `humd` VARCHAR(191) NULL,
-    MODIFY `uv` BOOLEAN NULL,
-    MODIFY `food` BOOLEAN NULL,
-    MODIFY `drink` BOOLEAN NULL,
-    MODIFY `schedule1` DATETIME(3) NULL,
-    MODIFY `schedule2` DATETIME(3) NULL,
-    MODIFY `isAuto` BOOLEAN NULL;

@@ -1,0 +1,93 @@
+#title {
+    align-items: center;
+    color: var(--palette-4);
+    display: flex;
+    height: 150px;
+    justify-content: center;
+}
+
+#form-container {
+    background: var(--palette-4);
+    border-radius: 2rem 2rem 0 0;
+    min-height: calc(100vh - 150px);
+    padding: 1.5rem;
+}
+
+#form-container h3 {
+    color: var(--palette-1);
+    text-align: center;
+}
+
+#form-container form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+}
+
+#form-container form label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+}
+
+#form-container form label:first-child {
+    margin-top: 0;
+}
+
+
+input[type=text],
+input[type=email],
+input[type=password] {
+    background: var(--palette-3);
+    border: none;
+    border-radius: 15px;
+    box-sizing: border-box;
+    height: 50px;
+    margin-top: 0.5rem;
+    outline: none;
+    padding: 10px;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+    border: 2px var(--palette-1) solid;
+}
+
+
+button[type=button] {
+    background: var(--palette-2);
+    border: none;
+    border-radius: 15px;
+    color: var(--palette-4);
+    cursor: pointer;
+    font-weight: 700;
+    height: 50px;
+    margin-top: 3rem;
+    outline: none;
+    padding: 10px;
+}
+
+button[type=button]:hover {
+    background: var(--palette-4);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color: var(--palette-2);
+}
+
+#form-container p {
+    color: var(--palette-2);
+    font-weight: 600;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+#form-container p a {
+    color: var(--palette-blue);
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 576px) {
+    button[type=button]:hover {
+        background: var(--palette-2);
+        color: var(--palette-4);
+    }
+}

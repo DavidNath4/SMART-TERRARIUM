@@ -1,0 +1,42 @@
+#dashboard-main {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+main {
+    padding: 0px 0px !important;
+}
+
+.button-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.button-container button[type=button] {
+    flex: 3;
+    margin-right: 2rem;
+    margin-top: 0 !important;
+}
+
+.button-container a {
+    align-items: center;
+    background: #E12323;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: var(--palette-4);
+    cursor: pointer;
+    display: flex;
+    flex: 2;
+    font-size: 0.85rem;
+    font-weight: 700;
+    height: 50px;
+    justify-content: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.button-container a:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

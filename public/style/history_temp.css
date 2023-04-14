@@ -1,0 +1,81 @@
+#dashboard-main {
+    align-items: center;
+    display: flex;
+    height: 150px;
+    justify-content: center;
+
+}
+
+#dashboard {
+    display: inline-block;
+    padding-bottom: 1rem;
+}
+
+#dashboard img {
+    display: inline-block;
+    width: 15px;
+}
+
+#dashboard h4 {
+    color: var(--palette-4);
+    display: inline-block;
+}
+
+#profile h5 {
+    color: var(--palette-4);
+}
+
+#profile {
+    display: inline-block;
+    width: 50%;
+}
+
+#profile p {
+    color: var(--palette-4);
+    font-weight: 600;
+}
+
+#form-container {
+    background: var(--palette-4);
+    border-radius: 2rem 2rem 0 0;
+    min-height: calc(100vh - 150px);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.temp {
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 1rem;
+    padding: 1em;
+    width: 400px;
+}
+
+.temp:nth-child(even) {
+    background-color: var(--palette-3);
+}
+
+.temp:nth-child(odd) {
+    background-color: var(--palette-2);
+    color: var(--palette-4);
+}
+
+.temp .value {
+    font-weight: 800;
+}
+
+.temp .time {
+    font-weight: 400;
+    text-align: right;
+}
+
+
+@media only screen and (max-width: 576px) {
+    .temp {
+        height: 30px;
+        width: 320px;
+    }
+
+}

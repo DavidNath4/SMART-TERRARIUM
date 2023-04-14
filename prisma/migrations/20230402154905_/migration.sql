@@ -1,6 +1,0 @@
--- AlterTable
-ALTER TABLE `history` MODIFY `temp` VARCHAR(191) NULL,
-    MODIFY `humd` VARCHAR(191) NULL,
-    MODIFY `uv` BOOLEAN NULL,
-    MODIFY `food` BOOLEAN NULL,
-    MODIFY `drink` BOOLEAN NULL;
