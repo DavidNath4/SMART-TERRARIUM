@@ -37,4 +37,7 @@ update:
 commit 4/14/2023
 update:
 
-- try handlebars
+- add template for handlebars
+- add login, register, dashboard, device page
+- add public,app, views
+- setup page controllers
