@@ -41,3 +41,8 @@ update:
 - add login, register, dashboard, device page
 - add public,app, views
 - setup page controllers
+
+commit 4/18/2023
+update:
+
+- repair login, register, dashboard, device page

@@ -4,7 +4,6 @@ const helmet = require('helmet');
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const ROUTER = require("./router");
-require('./API/API_SCHEDULE/connection/subscribe');
 const hbs = require('hbs');
 
 const app = express();
@@ -24,6 +23,7 @@ app.use(cors());
 app.use(cookieParser());
 
 
+require('./API/API_SCHEDULE/connection/subscribe');
 app.use("/", ROUTER);
 
 

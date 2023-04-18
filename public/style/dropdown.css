@@ -5,6 +5,8 @@
     justify-content: space-between;
     margin-bottom: 2rem;
     padding-top: 4rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
     position: relative;
 }
 
@@ -43,9 +45,9 @@
     margin: 0;
 }
 
-main {
+/* main {
     padding: 0 2.5rem;
-}
+} */
 
 .drop-down {
     background: var(--palette-4);
