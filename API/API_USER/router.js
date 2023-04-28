@@ -58,7 +58,6 @@ router.post(
     isUsernameAvailable,
     isEmailAvailable,
     isPasswordConfirmed,
-
     user.updateUser
 );
 

@@ -41,6 +41,7 @@ module.exports.profile = async (req, res) => {
     });
     const data = {
         styles: ["/style/profile.css", "/style/register.css"],
+        scripts: ["/js/profile.js"],
         username,
     };
     res.render("profile", data);

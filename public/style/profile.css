@@ -40,3 +40,10 @@ main {
 .button-container a:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+form h4 {
+    border-bottom: 2px solid var(--palette-3);
+    color: var(--palette-2);
+    margin-top: 2rem;
+    padding-bottom: 10px;
+}

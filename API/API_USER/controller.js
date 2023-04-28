@@ -190,11 +190,13 @@ const detail = async (req, res) => {
         }
 
         return res.status(200).json({
+            success: true,
             msg: "Successfully get current user!",
             data: data,
         });
     } catch (error) {
         return res.status(500).json({
+            success: false,
             msg: "Error getting current user!",
             error: error.message,
         });
