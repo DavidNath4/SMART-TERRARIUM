@@ -15,7 +15,7 @@ const generateAuthorizationToken = ({
     data,
     exp = Number(process.env.MAX_AGE) || 259200,
 }) => {
-    return jwt.sign(data, process.env.SECRET, {
+    return jwt.sign(data, process.env.SECRET_KEY, {
         expiresIn: exp,
     });
 };
@@ -24,9 +24,10 @@ const generateAuthorizationToken = ({
 const getAuthorizationToken = async (req) => {
     try {
         const jwtToken = req.cookies.Authorization;
+        console.log(process.env.SECRET_KEY, "SEC");
         const id = await jwt.verify(
             jwtToken,
-            process.env.SECRET,
+            process.env.SECRET_KEY,
             async (err, decode) => {
                 if (!err) {
                     return decode;
@@ -44,5 +45,5 @@ const getAuthorizationToken = async (req) => {
 module.exports = {
     setCookie,
     generateAuthorizationToken,
-    getAuthorizationToken
+    getAuthorizationToken,
 };

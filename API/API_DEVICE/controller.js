@@ -1,35 +1,36 @@
-const prisma = require('../../prisma/client');
-const { randomId, randomPin } = require('../../functions/device');
-const { hashPassword } = require('../../functions/hashing');
-const client = require('../API_SCHEDULE/connection/defConnection');
+const prisma = require("../../prisma/client");
+const { randomId, randomPin } = require("../../functions/device");
+const { hashPassword } = require("../../functions/hashing");
+const client = require("../API_SCHEDULE/connection/defConnection");
 let lastStatusTime = new Date();
 
 // function intial device
 const device_init = async (req, res) => {
-    const { deviceID, devicePIN } = { deviceID: randomId(), devicePIN: randomPin() };
+    const { deviceID, devicePIN } = {
+        deviceID: randomId(),
+        devicePIN: randomPin(),
+    };
     const hashed = await hashPassword(devicePIN);
     try {
         const data = await prisma.device.create({
             data: {
                 deviceID: deviceID,
-                devicePIN: hashed
-            }
+                devicePIN: hashed,
+            },
         });
 
         return res.status(201).json({
             msg: "Device ID and PIN successfully generate!",
             data: {
                 deviceID: data.deviceID,
-                devicePIN: String(devicePIN)
-            }
+                devicePIN: String(devicePIN),
+            },
         });
     } catch (error) {
         console.log(error.message);
         return res.status(500).json(error.message);
     }
 };
-
-
 
 // function pairing device
 const device_pair = async (req, res) => {
@@ -44,23 +45,21 @@ const device_pair = async (req, res) => {
                 deviceName: deviceID + "TERRARIUM",
                 User: {
                     connect: {
-                        id: req.id
-
-                    }
-                }
-            }
-
+                        id: req.id,
+                    },
+                },
+            },
         });
         return res.status(200).json({
+            success: true,
             msg: "Device Successfully Paired!",
-            data: data
+            data: data,
         });
     } catch (error) {
         console.log(error.message);
-        return res.status(500).json(error.message);
+        return res.status(500).json({ msg: error.message, success: false });
     }
 };
-
 
 // get all device
 
@@ -71,59 +70,59 @@ const devices = async (req, res) => {
                 deviceID: true,
                 User: {
                     select: {
-                        username: true
-                    }
-                }
-            }
+                        username: true,
+                    },
+                },
+            },
         });
 
         if (!data) {
-            res.status(400).json({ error: 'No Device' });
+            res.status(400).json({ error: "No Device" });
         }
         return res.status(200).json({
             msg: "Successfull get all device",
-            data: data
+            data: data,
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Unable to retrieve devices.' });
+        res.status(500).json({ error: "Unable to retrieve devices." });
     }
 };
 
-
 // get device by user
 const device_get = async (req, res) => {
-
     try {
         const id = req.id;
 
         const data = await prisma.device.findMany({
             where: {
-                userId: id
+                userId: id,
             },
             select: {
                 deviceID: true,
                 User: {
                     select: {
-                        username: true
-                    }
-                }
-            }
+                        username: true,
+                    },
+                },
+            },
         });
 
         if (!data) {
-            res.status(400).json({ error: 'No Device' });
+            res.status(400).json({ error: "No Device" });
         }
         return res.status(200).json({
+            success: true,
             msg: "Successfull get all device",
-            data: data
+            data: data,
         });
     } catch (err) {
-        res.status(500).json({ error: 'Unable to retrieve devices.' });
+        res.status(500).json({
+            error: "Unable to retrieve devices.",
+            success: false,
+        });
     }
-
 };
-
 
 // function unpairing device
 const device_unpair = async (req, res) => {
@@ -132,18 +131,17 @@ const device_unpair = async (req, res) => {
 
         const data = await prisma.device.update({
             where: {
-                deviceID: id
+                deviceID: id,
             },
             data: {
                 User: {
-                    disconnect: true
-                }
-            }
-
+                    disconnect: true,
+                },
+            },
         });
         return res.status(200).json({
             msg: "Device Successfully Unpaired!",
-            data: data
+            data: data,
         });
     } catch (error) {
         console.log(error.message);
@@ -158,24 +156,23 @@ const device_rename = async (req, res) => {
         const { deviceName } = req.body;
         const data = await prisma.device.update({
             where: {
-                deviceID: id
+                deviceID: id,
             },
             data: {
-                deviceName: deviceName
-            }
+                deviceName: deviceName,
+            },
         });
 
         return res.status(200).json({
             msg: "Device Successfully Rename!",
-            data: data.deviceName
+            data: data.deviceName,
         });
-
     } catch (error) {
         return res.status(500).json(error.message);
     }
 };
 
-client.on('message', async (topic, payload) => {
+client.on("message", async (topic, payload) => {
     lastStatusTime = new Date();
 });
 
@@ -184,24 +181,25 @@ const device_status = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const isOnline = lastStatusTime && (Date.now() - lastStatusTime.getTime() < 5 * 60 * 1000);
+        const isOnline =
+            lastStatusTime &&
+            Date.now() - lastStatusTime.getTime() < 5 * 60 * 1000;
 
         const dataUpdate = await prisma.device.update({
             where: {
-                deviceID: id
+                deviceID: id,
             },
             data: {
-                isOnline: isOnline
+                isOnline: isOnline,
             },
             select: {
-                isOnline: true
-            }
+                isOnline: true,
+            },
         });
-
 
         return res.status(200).json({
             msg: "Succes get Device Status!",
-            data: dataUpdate.isOnline
+            data: dataUpdate.isOnline,
         });
     } catch (err) {
         return res.status(500).json(err.message);
@@ -215,5 +213,5 @@ module.exports = {
     device_get,
     device_rename,
     device_status,
-    devices
+    devices,
 };

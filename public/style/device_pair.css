@@ -24,6 +24,7 @@ main {
     margin-left: 2.5rem;
     margin-right: 2.5rem;
     margin-top: 20px;
+    padding-bottom: 1rem;
     /* Add margin-top */
     padding-top: 1rem;
 }
@@ -93,8 +94,8 @@ button[type=button]:hover {
     border-radius: 15px;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
     height: 40px;
+    justify-content: space-between;
     margin-bottom: 0.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -105,6 +106,17 @@ button[type=button]:hover {
 
 .terra p {
     font-weight: 500;
+}
+
+.terra a {
+    color: var(--palette-2);
+    text-decoration: none;
+}
+
+.terra img {
+    cursor: pointer;
+    display: block;
+    width: 1.5rem;
 }
 
 @media only screen and (max-width: 576px) {

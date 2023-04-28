@@ -26,6 +26,9 @@ async function httpRequest({ url, body = null, method = "POST" }) {
     return data;
 }
 
+/**
+ Fungsi untuk mengabstraksi proses pengambilan data dari server untuk dimasukan ke dalam UI
+ */
 async function generalDataLoader({ url, func }) {
     const data = await httpRequest({ url, method: "GET" });
 

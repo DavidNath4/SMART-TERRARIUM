@@ -19,6 +19,6 @@ router.get("/login", logoutRequired, login);
 router.get("/logout", loginRequired, logoutUser);
 router.get("/register", logoutRequired, register);
 router.get("/profile", loginRequired, verifyToken, profile);
-router.get("/history_temp", loginRequired, verifyToken, history_temp);
+router.get("/history-temp", loginRequired, verifyToken, history_temp); //Ubah _ jadi - agar mempermudah penulisan di url
 
 module.exports = router;
