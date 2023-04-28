@@ -16,6 +16,13 @@ app.set("view engine", "hbs");
 app.set("view options", { layout: "layout/base" });
 app.use(express.static("public"));
 app.use("/static", express.static("public"));
+
+app.engine("hbs", hbs.__express);
+app.set("views", "views");
+app.set("view engine", "hbs");
+app.set("view options", { layout: "layout/base" });
+app.use(express.static("public"));
+app.use("/static", express.static("public"));
 app.use(helmet());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
