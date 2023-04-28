@@ -16,7 +16,7 @@ module.exports.register = (req, res) => {
 
 module.exports.device_pair = (req, res) => {
     const data = {
-        styles: ["/style/device_pair.css", "/style/dashboard.css"],
+        styles: ["/style/device_pair.css"],
     };
     res.render("device_pair", data);
 };
@@ -33,4 +33,9 @@ module.exports.history_temp = (req, res) => {
         styles: ["/style/history_temp.css"],
     };
     res.render("history_temp", data);
+};
+
+module.exports.logoutUser = async (req, res) => {
+    res.cookie("Authorization", "", { httpOnly: true, maxAge: 1000 });
+    return res.redirect("/login");
 };

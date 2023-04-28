@@ -1,5 +1,5 @@
 main {
-    padding: 0 2.5rem;
+    padding: 0;
 }
 
 #pair1 {
@@ -8,9 +8,11 @@ main {
     border-radius: 15px;
     box-sizing: border-box;
     margin-bottom: 20px;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
     /* Add margin-bottom */
     padding-top: 1rem;
-    width: 100%;
+    /* width: 100%; */
 }
 
 #pair2 {
@@ -18,10 +20,12 @@ main {
     background: var(--palette-4);
     border-radius: 15px;
     box-sizing: border-box;
+    /* width: 100%; */
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
     margin-top: 20px;
     /* Add margin-top */
     padding-top: 1rem;
-    width: 100%;
 }
 
 #pair2 h4 {
@@ -78,7 +82,7 @@ button[type=button] {
 }
 
 button[type=button]:hover {
-    background: var(--palette-4);
+    background: var(--palette-3);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     color: var(--palette-2);
 }

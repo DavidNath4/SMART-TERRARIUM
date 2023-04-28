@@ -1,11 +1,10 @@
 const prisma = require("../../prisma/client");
 const jwt = require("jsonwebtoken");
 
-const { comparePassword, hashPassword } = require('../../functions/hashing');
+const { comparePassword, hashPassword } = require("../../functions/hashing");
 const { generateToken } = require("../../functions/authorization");
 
 const registerUser = async (req, res) => {
-
     try {
         const { username, email, password } = req.body;
 
@@ -20,45 +19,39 @@ const registerUser = async (req, res) => {
                     create: {
                         fullName: username || null,
                         // image: null
-                    }
-                }
-
+                    },
+                },
             },
             select: {
                 id: true,
                 username: true,
                 email: true,
-
-            }
+            },
         });
 
         const payload = {
-            id: data.id
+            id: data.id,
         };
 
         res.cookie("Authorization", generateToken(payload), {
             httpOnly: true,
-            maxAge: Number(process.env.MAX_AGE) * 1000
+            maxAge: Number(process.env.MAX_AGE) * 1000,
         });
-
 
         return res.status(201).json({
             msg: "User succesfully registered!",
-            data: data
+            data: data,
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             msg: "Error registering user",
-            error: error.message
+            error: error.message,
         });
     }
-
 };
 
-
 const updateUser = async (req, res) => {
-
     try {
         const id = req.id;
         const { username, email, password, fullName } = req.body;
@@ -66,7 +59,7 @@ const updateUser = async (req, res) => {
 
         const data = await prisma.user.update({
             where: {
-                id: id
+                id: id,
             },
             data: {
                 username: username,
@@ -76,8 +69,8 @@ const updateUser = async (req, res) => {
                     update: {
                         fullName: fullName || null,
                         // image: image || null
-                    }
-                }
+                    },
+                },
             },
             select: {
                 id: true,
@@ -85,48 +78,41 @@ const updateUser = async (req, res) => {
                 email: true,
                 profile: {
                     select: {
-                        fullName: true
-                    }
-                }
-            }
+                        fullName: true,
+                    },
+                },
+            },
         });
 
         return res.status(200).json({
             msg: "User successfully updated!",
-            data: data
+            data: data,
         });
-
     } catch (error) {
         return res.status(500).json({
             msg: "Error updating user!",
-            error: error.message
+            error: error.message,
         });
-
     }
-
 };
 
-
 const loginUser = async (req, res) => {
-
     try {
         const { emailOrUsername, password } = req.body;
 
         const data = await prisma.user.findMany({
-
             where: {
                 OR: [
                     { email: { equals: emailOrUsername } },
                     { username: { equals: emailOrUsername } },
-                ]
+                ],
             },
             select: {
                 id: true,
                 username: true,
                 email: true,
-                password: true
-
-            }
+                password: true,
+            },
         });
 
         if (data.length === 0) {
@@ -144,28 +130,25 @@ const loginUser = async (req, res) => {
         }
 
         const payload = {
-            id: data[0].id
+            id: data[0].id,
         };
 
         res.cookie("Authorization", generateToken(payload), {
             httpOnly: true,
-            maxAge: Number(process.env.MAX_AGE) * 1000
+            maxAge: Number(process.env.MAX_AGE) * 1000,
         });
 
         return res.status(200).json({
             msg: "Login Success",
             data: {
                 id: data[0].id,
-                username: data[0].username
-            }
+                username: data[0].username,
+            },
         });
-
     } catch (error) {
         console.log(error.message);
         return res.status(400).json({ msg: "error" });
-
     }
-
 };
 
 const logoutUser = async (req, res) => {
@@ -173,16 +156,13 @@ const logoutUser = async (req, res) => {
     return res.status(200).json({ msg: "Logout success" });
 };
 
-
-
 const detail = async (req, res) => {
-
     try {
         const id = req.id;
 
         const data = await prisma.user.findUnique({
             where: {
-                id: id
+                id: id,
             },
             select: {
                 id: true,
@@ -192,14 +172,14 @@ const detail = async (req, res) => {
                     select: {
                         fullName: true,
                         // image: true
-                    }
+                    },
                 },
                 device: {
                     select: {
-                        deviceID: true
-                    }
-                }
-            }
+                        deviceID: true,
+                    },
+                },
+            },
         });
 
         if (!data) {
@@ -208,27 +188,20 @@ const detail = async (req, res) => {
 
         return res.status(200).json({
             msg: "Successfully get current user!",
-            data: data
+            data: data,
         });
-
     } catch (error) {
-
         return res.status(500).json({
             msg: "Error getting current user!",
-            error: error.message
+            error: error.message,
         });
-
     }
-
 };
-
 
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
     updateUser,
-    detail
-
-}
-
+    detail,
+};
