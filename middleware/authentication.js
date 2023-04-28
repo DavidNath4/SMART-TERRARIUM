@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const prisma = require('../prisma/client');
+const jwt = require("jsonwebtoken");
+const prisma = require("../prisma/client");
 
 const verifyToken = async (req, res, next) => {
     const token = req.cookies.Authorization;
@@ -12,8 +12,8 @@ const verifyToken = async (req, res, next) => {
 
         const data = await prisma.user.findUnique({
             where: {
-                id: decoded.id
-            }
+                id: decoded.id,
+            },
         });
 
         if (!data) {
@@ -27,7 +27,6 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-
 const loginRequired = async (req, res, next) => {
     if (req.cookies.Authorization) {
         next();
@@ -38,15 +37,19 @@ const loginRequired = async (req, res, next) => {
 
 const logoutRequired = (req, res, next) => {
     if (req.cookies.Authorization) {
-        return res.status(401).json({ msg: "You are already logged in, please Log out first" });
+        return res
+            .status(401)
+            .json({
+                msg: "You are already logged in, please Log out first",
+                success: false,
+            });
     } else {
         next();
     }
 };
 
-
 module.exports = {
     verifyToken,
     loginRequired,
-    logoutRequired
+    logoutRequired,
 };

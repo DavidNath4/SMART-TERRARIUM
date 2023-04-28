@@ -16,8 +16,8 @@ const router = require("express").Router();
 
 router.get("/", loginRequired, verifyToken, device_pair);
 router.get("/login", logoutRequired, login);
-router.get("/logout", logoutRequired, logoutUser);
-router.get("/register", loginRequired, verifyToken, register);
+router.get("/logout", loginRequired, logoutUser);
+router.get("/register", logoutRequired, register);
 router.get("/profile", loginRequired, verifyToken, profile);
 router.get("/history_temp", loginRequired, verifyToken, history_temp);
 

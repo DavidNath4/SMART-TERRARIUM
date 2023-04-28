@@ -1,6 +1,7 @@
 module.exports.login = (req, res) => {
     const data = {
         styles: ["/style/login.css"],
+        scripts: ["/js/login.js"],
         layout: "layout/authBase",
     };
     res.render("login", data);

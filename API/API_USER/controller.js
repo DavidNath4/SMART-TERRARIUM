@@ -39,12 +39,14 @@ const registerUser = async (req, res) => {
         });
 
         return res.status(201).json({
+            success: true,
             msg: "User succesfully registered!",
             data: data,
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
+            success: false,
             msg: "Error registering user",
             error: error.message,
         });
@@ -139,6 +141,7 @@ const loginUser = async (req, res) => {
         });
 
         return res.status(200).json({
+            success: true,
             msg: "Login Success",
             data: {
                 id: data[0].id,
@@ -147,7 +150,7 @@ const loginUser = async (req, res) => {
         });
     } catch (error) {
         console.log(error.message);
-        return res.status(400).json({ msg: "error" });
+        return res.status(400).json({ msg: "error", success: false });
     }
 };
 

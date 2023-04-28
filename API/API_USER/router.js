@@ -1,53 +1,59 @@
 const user = require("./controller");
-const { body, query, param } = require('express-validator');
-const { isUsernameExist, isUsernameAvailable } = require("../../middleware/usernameChecker");
+const { body, query, param } = require("express-validator");
+const {
+    isUsernameExist,
+    isUsernameAvailable,
+} = require("../../middleware/usernameChecker");
 const { isPasswordConfirmed } = require("../../middleware/passwordChecker");
-const { isEmailExist, isEmailAvailable } = require("../../middleware/emailChecker");
+const {
+    isEmailExist,
+    isEmailAvailable,
+} = require("../../middleware/emailChecker");
 const { formChecker } = require("../../middleware/formChecker");
-const { verifyToken, loginRequired, logoutRequired } = require("../../middleware/authentication");
+const {
+    verifyToken,
+    loginRequired,
+    logoutRequired,
+} = require("../../middleware/authentication");
 
-const router = require('express').Router();
+const router = require("express").Router();
 
-
-router.post("/register",
+router.post(
+    "/register",
     body("username")
         .isLength({ min: 6 })
         .withMessage("Username minimum is 6 character"),
-    body("email")
-        .isEmail()
-        .withMessage("Please enter valid email"),
+    body("email").isEmail().withMessage("Please enter valid email"),
     body("password")
         .isStrongPassword()
-        .withMessage("Password must have at least 8 characters, have a combination of numbers, uppercase, lowercase letters and unique characters"),
+        .withMessage(
+            "Password must have at least 8 characters, have a combination of numbers, uppercase, lowercase letters and unique characters"
+        ),
     formChecker,
     isUsernameExist,
     isEmailExist,
     isPasswordConfirmed,
+    user.registerUser
+);
 
-    user.registerUser);
+router.post("/login", logoutRequired, user.loginUser);
 
-router.post("/login",
-    logoutRequired,
-    user.loginUser);
-
-router.get("/logout",
-    loginRequired,
-    user.logoutUser);
+router.get("/logout", loginRequired, user.logoutUser);
 
 router.get("/session", verifyToken, user.detail);
 
-
-router.post("/update/:id",
+router.post(
+    "/update/:id",
     verifyToken,
     body("username")
         .isLength({ min: 6 })
         .withMessage("Username minimum is 6 character"),
-    body("email")
-        .isEmail()
-        .withMessage("Please enter valid email"),
+    body("email").isEmail().withMessage("Please enter valid email"),
     body("password")
         .isStrongPassword()
-        .withMessage("Password must have at least 8 characters, have a combination of numbers, uppercase, lowercase letters and unique characters"),
+        .withMessage(
+            "Password must have at least 8 characters, have a combination of numbers, uppercase, lowercase letters and unique characters"
+        ),
     formChecker,
     isUsernameAvailable,
     isEmailAvailable,
@@ -55,8 +61,5 @@ router.post("/update/:id",
 
     user.updateUser
 );
-
-
-
 
 module.exports = router;
