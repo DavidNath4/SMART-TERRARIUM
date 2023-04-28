@@ -9,11 +9,11 @@ const formChecker = (req, res, next) => {
         });
     } catch (error) {
         return res.status(403).json({
+            success: false,
             data: {
-                success: false,
                 message: "form invalid",
-                data: error
-            }
+                data: error,
+            },
         });
     }
 };

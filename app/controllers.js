@@ -10,6 +10,7 @@ module.exports.login = (req, res) => {
 module.exports.register = (req, res) => {
     const data = {
         styles: ["/style/register.css"],
+        scripts: ["/js/register.js"],
         layout: "layout/authBase",
     };
     res.render("register", data);
