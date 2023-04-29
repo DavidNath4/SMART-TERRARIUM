@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const { comparePassword, hashPassword } = require("../../functions/hashing");
 const { generateToken } = require("../../functions/authorization");
+const { resSuccess, resError } = require("../../services/responseHandler");
 
 const registerUser = async (req, res) => {
     try {
@@ -38,17 +39,17 @@ const registerUser = async (req, res) => {
             maxAge: Number(process.env.MAX_AGE) * 1000,
         });
 
-        return res.status(201).json({
-            success: true,
-            msg: "User succesfully registered!",
-            data: data,
+        return resSuccess({
+            res,
+            title: 'User succesfully registered!',
+            data: data
         });
+
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            msg: "Error registering user",
-            error: error.message,
+        return resError({
+            res,
+            title: 'Error registering user!',
+            errors: error.message
         });
     }
 };
@@ -85,15 +86,17 @@ const updateUser = async (req, res) => {
                 },
             },
         });
-
-        return res.status(200).json({
-            msg: "User successfully updated!",
-            data: data,
+        return resSuccess({
+            res,
+            title: 'User successfully updated!',
+            data: data
         });
+
     } catch (error) {
-        return res.status(500).json({
-            msg: "Error updating user!",
-            error: error.message,
+        return resError({
+            res,
+            title: 'Error updating user!',
+            errors: error.message
         });
     }
 };
@@ -139,24 +142,30 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             maxAge: Number(process.env.MAX_AGE) * 1000,
         });
-
-        return res.status(200).json({
-            success: true,
-            msg: "Login Success",
+        return resSuccess({
+            res,
+            title: 'Login Success!',
             data: {
                 id: data[0].id,
                 username: data[0].username,
-            },
+            }
         });
     } catch (error) {
-        console.log(error.message);
-        return res.status(400).json({ msg: "error", success: false });
+        return resError({ res, title: 'Login Failed!', errors: error.message });
     }
 };
 
 const logoutUser = async (req, res) => {
-    res.cookie("Authorization", "", { httpOnly: true, maxAge: 1000 });
-    return res.status(200).json({ msg: "Logout success" });
+    try {
+        res.cookie("Authorization", "", { httpOnly: true, maxAge: 1000 });
+        return resSuccess({ res, title: 'Logout success!' });
+    } catch (error) {
+        return resError({
+            res,
+            errors: error.message
+        });
+    }
+
 };
 
 const detail = async (req, res) => {
@@ -188,17 +197,17 @@ const detail = async (req, res) => {
         if (!data) {
             return res.status(404).json({ msg: "User not found" });
         }
-
-        return res.status(200).json({
-            success: true,
-            msg: "Successfully get current user!",
-            data: data,
+        return resSuccess({
+            res,
+            title: 'Successfully get current user!',
+            data: data
         });
+
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            msg: "Error getting current user!",
-            error: error.message,
+        return resError({
+            res,
+            title: 'Error getting current user!',
+            errors: error.message
         });
     }
 };

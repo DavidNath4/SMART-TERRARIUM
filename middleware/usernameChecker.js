@@ -1,4 +1,6 @@
+const { getAuthorizationToken } = require("../functions/authorization");
 const prisma = require("../prisma/client");
+const { resError } = require("../services/responseHandler");
 
 const isUsernameExist = async (req, res, next) => {
     try {
@@ -8,34 +10,33 @@ const isUsernameExist = async (req, res, next) => {
             },
         });
         if (user) {
-            return res
-                .status(400)
-                .json({ error: "Username already exists", success: false });
+            throw new Error('Username already exists!');
         }
         return next();
     } catch (error) {
         console.log(error);
-        return res
-            .status(500)
-            .json({ error: "Internal server error", success: false });
+        return resError({ res, title: 'Bad Request', errors: error.message });
     }
 };
 
 const isUsernameAvailable = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const id = req.id;
         const user = await prisma.user.findUnique({
             where: {
                 username: req.body.username,
             },
         });
+
         if (user && user.id !== id) {
-            return res.status(400).json({ error: "Username is already taken" });
+            if (req.id === user.id) {
+                return next();
+            }
+            throw new Error('Username is already taken!');
         }
         return next();
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Internal server error" });
+        return resError({ res, title: 'Bad Request', errors: error.message });
     }
 };
 

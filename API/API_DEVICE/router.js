@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { verifyToken } = require('../../middleware/authentication');
-const { deviceIdPinChecker, isDevicePaired } = require('../../middleware/deviceChecker');
+const { deviceIdPinChecker, isDevicePaired, userAndDevice } = require('../../middleware/deviceChecker');
 const device = require('./controller');
 
 router.get('/initialization', device.device_init);
@@ -17,7 +17,11 @@ router.get('/user-devices',
     verifyToken,
     device.device_get);
 
-router.get("/unpair/:id", device.device_unpair);
+router.post("/unpair",
+    verifyToken,
+    userAndDevice,
+    device.device_unpair
+);
 
 router.put("/rename/:id", device.device_rename);
 

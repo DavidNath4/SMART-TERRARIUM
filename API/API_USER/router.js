@@ -14,6 +14,7 @@ const {
     verifyToken,
     loginRequired,
     logoutRequired,
+    checkSession,
 } = require("../../middleware/authentication");
 
 const router = require("express").Router();
@@ -43,7 +44,7 @@ router.get("/logout", loginRequired, user.logoutUser);
 router.get("/session", verifyToken, user.detail);
 
 router.post(
-    "/update/:id",
+    "/update",
     verifyToken,
     body("username")
         .isLength({ min: 6 })

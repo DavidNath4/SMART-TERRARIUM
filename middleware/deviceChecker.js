@@ -1,5 +1,6 @@
 const { comparePassword } = require('../functions/hashing');
 const prisma = require('../prisma/client');
+const { resError } = require('../services/responseHandler');
 
 
 const deviceIdPinChecker = async (req, res, next) => {
@@ -15,21 +16,20 @@ const deviceIdPinChecker = async (req, res, next) => {
         });
 
         if (!data) {
-            return res.status(404).json({ msg: "Device not found!" });
+            return resError({ res, code: 404, errors: "Device not found!" });
         }
 
         const isMatch = await comparePassword(devicePIN, data.devicePIN);
 
         if (!isMatch) {
-            return res.status(401).json({ msg: "invalid PIN" });
+            return resError({ res, code: 401, errors: "Invalid PIN!" });
         }
 
 
         return next();
 
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({ msg: "Internal server error" });
+        return resError({ res, errors: error.message });
     }
 
 };
@@ -47,13 +47,12 @@ const isDevicePaired = async (req, res, next) => {
         });
 
         if (data.userId !== null) {
-            return res.status(400).json({ message: 'Device is already paired with a user' });
+            return resError({ res, code: 400, errors: "Device is already paired with a user!" });
         }
 
         return next();
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({ msg: "Internal server error" });
+        return resError({ res, errors: error.message });
     }
 
 };
@@ -77,8 +76,29 @@ const isDeviceExist = async (req, res, next) => {
 
 };
 
+const userAndDevice = async (req, res, next) => {
+    try {
+        const id = req.id;
+        const { deviceID } = req.body;
+        const device = await prisma.device.findMany({
+            where: {
+                deviceID: deviceID
+            }
+        });
+        if (device[0].userId !== id) {
+            throw new Error('User and Device invalid!');
+        }
+
+        return next();
+
+    } catch (error) {
+        return resError({ res, errors: error.message });
+    }
+};
+
 module.exports = {
     deviceIdPinChecker,
     isDevicePaired,
-    isDeviceExist
+    isDeviceExist,
+    userAndDevice
 };

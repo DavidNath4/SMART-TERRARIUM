@@ -9,7 +9,7 @@ const publishSchedule = async (req, res) => {
     try {
         let { schedule1, schedule2, mode } = req.body;
         const { deviceID } = req.params;
-        console.log(deviceID);
+        // console.log(deviceID);
 
         const updateData = await prisma.device.update({
             where: {

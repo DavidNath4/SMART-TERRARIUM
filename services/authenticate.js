@@ -24,7 +24,7 @@ const generateAuthorizationToken = ({
 const getAuthorizationToken = async (req) => {
     try {
         const jwtToken = req.cookies.Authorization;
-        console.log(process.env.SECRET_KEY, "SEC");
+        // console.log(process.env.SECRET_KEY, "SEC");
         const id = await jwt.verify(
             jwtToken,
             process.env.SECRET_KEY,

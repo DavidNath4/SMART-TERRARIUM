@@ -28,6 +28,8 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+require('./API/API_SCHEDULE/connection/subscribe');
+
 app.use("/", ROUTER);
 
 app.listen(PORT, () => {

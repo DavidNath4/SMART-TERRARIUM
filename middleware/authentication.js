@@ -8,7 +8,7 @@ const verifyToken = async (req, res, next) => {
     }
     try {
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        console.log(decoded.id);
+        // console.log(decoded.id);
 
         const data = await prisma.user.findUnique({
             where: {
@@ -21,7 +21,7 @@ const verifyToken = async (req, res, next) => {
         }
 
         req.id = decoded.id;
-        next();
+        return next();
     } catch (err) {
         return res.status(401).json({ msg: "Invalid token" });
     }
