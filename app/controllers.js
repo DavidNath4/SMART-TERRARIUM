@@ -64,3 +64,20 @@ module.exports.logoutUser = async (req, res) => {
     res.cookie("Authorization", "", { httpOnly: true, maxAge: 1000 });
     return res.redirect("/login");
 };
+
+
+module.exports.dashboard = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const data = {
+        styles: ["/style/dashboard.css"],
+        scripts: ["/js/dashboard.js"],
+        username,
+        deviceID
+    };
+    res.render("index", data);
+};

@@ -5,7 +5,7 @@ const terrariumContainer = document.getElementById("pair2");
 const deviceTemplate = (device_name) => {
     return `
         <div class="terra">
-            <a href="/">Terrarium "${device_name}"</a>
+            <a href="/dashboard/${device_name}">"${device_name}"</a>
             <img src="/image/Close.svg" alt="">
         </div>
     `;

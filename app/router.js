@@ -10,6 +10,7 @@ const {
     profile,
     history_temp,
     logoutUser,
+    dashboard,
 } = require("./controllers");
 
 const router = require("express").Router();
@@ -20,5 +21,6 @@ router.get("/logout", loginRequired, logoutUser);
 router.get("/register", logoutRequired, register);
 router.get("/profile", loginRequired, verifyToken, profile);
 router.get("/history-temp", loginRequired, verifyToken, history_temp); //Ubah _ jadi - agar mempermudah penulisan di url
+router.get("/dashboard/:id", loginRequired, verifyToken, dashboard);
 
 module.exports = router;

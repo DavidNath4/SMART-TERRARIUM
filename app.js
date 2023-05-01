@@ -5,27 +5,20 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const ROUTER = require("./router");
 const hbs = require("hbs");
-
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.engine("hbs", hbs.__express);
-app.set("views", "views");
-app.set("view engine", "hbs");
-app.set("view options", { layout: "layout/base" });
-app.use(express.static("public"));
-app.use("/static", express.static("public"));
-
-app.engine("hbs", hbs.__express);
-app.set("views", "views");
-app.set("view engine", "hbs");
-app.set("view options", { layout: "layout/base" });
-app.use(express.static("public"));
-app.use("/static", express.static("public"));
 app.use(helmet());
+app.use(cors());
+app.engine("hbs", hbs.__express);
+app.set("views", "views");
+app.set("view engine", "hbs");
+app.set("view options", { layout: "layout/base" });
+app.use(express.static("public"));
+app.use("/static", express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 require('./API/API_SCHEDULE/connection/subscribe');

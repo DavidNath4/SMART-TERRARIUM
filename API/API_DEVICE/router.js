@@ -17,6 +17,8 @@ router.get('/user-devices',
     verifyToken,
     device.device_get);
 
+router.get('/detail/:deviceID', verifyToken, device.device_detail);
+
 router.post("/unpair",
     verifyToken,
     userAndDevice,

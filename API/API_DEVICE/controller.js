@@ -232,6 +232,26 @@ const device_status = async (req, res) => {
     }
 };
 
+const device_detail = async (req, res) => {
+    try {
+        const { deviceID } = req.params;
+        const data = await prisma.device.findUnique({
+            where: {
+                deviceID: deviceID
+            }
+        });
+
+        if (!data) {
+            throw "Data not found!";
+        }
+
+        return resSuccess({ res, title: "Sucess get data!", data });
+
+    } catch (error) {
+        return resError({ res, errors: error.message });
+    }
+};
+
 module.exports = {
     device_init,
     device_pair,
@@ -239,5 +259,6 @@ module.exports = {
     device_get,
     device_rename,
     device_status,
+    device_detail,
     devices,
 };
