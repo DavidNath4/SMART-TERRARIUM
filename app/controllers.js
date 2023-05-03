@@ -53,11 +53,96 @@ module.exports.history_temp = async (req, res) => {
         where: { id: userId.id },
         select: { username: true },
     });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
     const data = {
-        styles: ["/style/history_temp.css"],
+        styles: ["/style/history.css"],
+        scripts: ["/js/history_temp.js"],
         username,
+        deviceID,
+        deviceName,
+        title: 'TEMPERATURE LOGS'
     };
-    res.render("history_temp", data);
+    res.render("history", data);
+};
+
+module.exports.history_humd = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
+    const data = {
+        styles: ["/style/history.css"],
+        scripts: ["/js/history_humd.js"],
+        username,
+        deviceID,
+        deviceName,
+        title: 'HUMIDITY LOGS'
+    };
+    res.render("history", data);
+};
+
+module.exports.history_uv = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
+
+    const data = {
+        styles: ["/style/history.css"],
+        scripts: ["/js/history_uv.js"],
+        username,
+        deviceID,
+        deviceName,
+        title: 'UV LOGS'
+    };
+    res.render("history", data);
+};
+
+module.exports.history_food = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
+
+    const data = {
+        styles: ["/style/history.css"],
+        scripts: ["/js/history_food.js"],
+        username,
+        deviceID,
+        deviceName,
+        title: 'FOOD LOGS'
+    };
+    res.render("history", data);
+};
+
+module.exports.history_drink = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
+
+    const data = {
+        styles: ["/style/history.css"],
+        scripts: ["/js/history_drink.js"],
+        username,
+        deviceID,
+        deviceName,
+        title: 'DRINK LOGS'
+    };
+    res.render("history", data);
 };
 
 module.exports.logoutUser = async (req, res) => {
@@ -73,11 +158,22 @@ module.exports.dashboard = async (req, res) => {
         select: { username: true },
     });
     const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
     const data = {
         styles: ["/style/dashboard.css"],
         scripts: ["/js/dashboard.js"],
         username,
+        deviceName,
         deviceID
     };
     res.render("index", data);
+};
+
+const getDeviceName = async (deviceID) => {
+    const { deviceName } = await prisma.device.findUnique({
+        where: {
+            deviceID: deviceID
+        }
+    });
+    return deviceName;
 };

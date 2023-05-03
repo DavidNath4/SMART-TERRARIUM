@@ -1,12 +1,31 @@
 // INFO: Tampilkan data perangkat user
 // Mengambil elemen container untuk daftar perangkat terrarium
 const terrariumContainer = document.getElementById("pair2");
+
+const unpair = async (id) => {
+    alert(id);
+    const resp = await httpRequest({
+        url: "/device/unpair",
+        body: {
+            deviceID: id
+        },
+    });
+
+    if (resp.success) {
+        const element = document.getElementById(`content-${id}`);
+        if (element) {
+            element.remove();
+        }
+        // document.getElementById(`content-${id}`).remove();
+    }
+};
+
 // Template yang akan berisi id terrarium, template ini diambil dr hbs, dan yg di hbs di hapus
-const deviceTemplate = (device_name) => {
+const deviceTemplate = (deviceID, device_name) => {
     return `
-        <div class="terra">
-            <a href="/dashboard/${device_name}">"${device_name}"</a>
-            <img src="/image/Close.svg" alt="">
+        <div class="terra" id="content-${deviceID}">
+            <a href="/dashboard/${deviceID}">"${device_name}"</a>
+            <img src="/image/Close.svg" alt="" onclick=unpair("${deviceID}")>
         </div>
     `;
 };
@@ -16,9 +35,10 @@ const terrariumDataLoader = (data) => {
     // Lakukan looping semua data dari response server
     data.forEach((d) => {
         // Masukan data tersebut ke dalam container
+        console.log(d.deviceName);
         terrariumContainer.insertAdjacentHTML(
             "beforeend",
-            deviceTemplate(d.deviceID)
+            deviceTemplate(d.deviceID, d.deviceName)
         );
     });
 };
@@ -53,7 +73,7 @@ pairButton.addEventListener("click", async (e) => {
     if (resp.success) {
         terrariumContainer.insertAdjacentHTML(
             "beforeend",
-            deviceTemplate(resp.data.deviceID)
+            deviceTemplate(resp.data.deviceID, resp.data.deviceName)
         );
     }
 

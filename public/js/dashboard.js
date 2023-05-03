@@ -1,3 +1,4 @@
+const socket = io();
 const idContainer = document.getElementById("device-id");
 const deviceID = idContainer.getAttribute("data-id");
 
@@ -13,12 +14,23 @@ const uvContainer = document.getElementById("uv");
 const detailLoader = (data) => {
     firstFeedContainer.textContent = data.schedule1;
     secondFeedContainer.textContent = data.schedule2;
-    tempContainer.textContent = `${data.temp}\xB0C`;;
+    tempContainer.textContent = `${data.temp}\xB0C`;
     humdContainer.textContent = data.humd + "%";
-    drinkContainer.textContent = data.drink ? 'Available' : 'Unavailable';;
-    foodContainer.textContent = data.food ? 'Available' : 'Unavailable';;
-    uvContainer.textContent = data.uv ? 'ON' : 'OFF';;
+    drinkContainer.textContent = data.drink ? 'Available' : 'Unavailable';
+    foodContainer.textContent = data.food ? 'Available' : 'Unavailable';
+    uvContainer.textContent = data.uv ? 'ON' : 'OFF';
 };
 
-generalDataLoader({ url: `/device/detail/${deviceID}`, func: detailLoader })
 
+socket.on(`mqtt-data/${deviceID}`, (data) => {
+    console.log('Received MQTT data:', data);
+    // do something with the data
+    tempContainer.textContent = `${data.temp}\xB0C`;
+    humdContainer.textContent = data.humd + "%";
+    drinkContainer.textContent = data.drink ? 'Available' : 'Unavailable';
+    foodContainer.textContent = data.food ? 'Available' : 'Unavailable';
+    uvContainer.textContent = data.uv ? 'ON' : 'OFF';
+
+});
+
+generalDataLoader({ url: `/device/detail/${deviceID}`, func: detailLoader });

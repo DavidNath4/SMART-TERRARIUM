@@ -49,3 +49,10 @@ update:
 - Formating error handling
 - Fix unpair bug
 - Fix update user/profile bug
+
+commit 5/3/2023
+update:
+
+- create history log frontend
+- repair routing app controller
+- repair API history

@@ -108,6 +108,7 @@ const device_get = async (req, res) => {
             },
             select: {
                 deviceID: true,
+                deviceName: true,
                 User: {
                     select: {
                         username: true,

@@ -38,6 +38,7 @@ async function generalDataLoader({ url, func }) {
 
     if (!data.success) {
         console.log(data);
+        alert('Data not found!');
     }
 }
 

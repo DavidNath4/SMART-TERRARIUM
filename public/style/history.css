@@ -1,40 +1,3 @@
-/* #dashboard-main {
-    align-items: center;
-    display: flex;
-    height: 150px;
-    justify-content: center;
-
-}
-
-#dashboard {
-    display: inline-block;
-    padding-bottom: 1rem;
-}
-
-#dashboard img {
-    display: inline-block;
-    width: 15px;
-}
-
-#dashboard h4 {
-    color: var(--palette-4);
-    display: inline-block;
-}
-
-#profile h5 {
-    color: var(--palette-4);
-}
-
-#profile {
-    display: inline-block;
-    width: 50%;
-}
-
-#profile p {
-    color: var(--palette-4);
-    font-weight: 600;
-} */
-
 #form-container {
     background: var(--palette-4);
     border-radius: 2rem 2rem 0 0;
@@ -43,7 +6,7 @@
     text-align: center;
 }
 
-.temp {
+.log-container {
     border-radius: 15px;
     display: flex;
     justify-content: space-between;
@@ -53,27 +16,27 @@
     width: 400px;
 }
 
-.temp:nth-child(even) {
+.log-container:nth-child(even) {
     background-color: var(--palette-3);
 }
 
-.temp:nth-child(odd) {
+.log-container:nth-child(odd) {
     background-color: var(--palette-2);
     color: var(--palette-4);
 }
 
-.temp .value {
+.log-container .value {
     font-weight: 800;
 }
 
-.temp .time {
+.log-container .time {
     font-weight: 400;
     text-align: right;
 }
 
 
 @media only screen and (max-width: 576px) {
-    .temp {
+    .log-container {
         height: 30px;
         width: 320px;
     }

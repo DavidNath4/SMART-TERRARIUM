@@ -1,54 +1,55 @@
 <div class="dashboard-status">
-    <h2 id="device-id" data-id="{{deviceID}}">{{deviceID}}</h2>
+    <h2 id="device-id" data-id="{{deviceID}}">{{deviceName}}</h2>
     <div class="two-column">
-        <div class="two-col-item">
+    
+        <a href="" class="two-col-item">
             <span class="card-title pointer">
                 <h5>First Feed</h5>
                 <img src="/image/edit.svg" alt="">
             </span>
             <h1 id="first-feed"></h1>
-        </div>
-        <div class="two-col-item">
+        </a>
+        <a class="two-col-item">
             <span class="card-title pointer">
                 <h5>Second Feed</h5>
                 <img src="/image/edit.svg" alt="">
             </span>
             <h1 id="second-feed"></h1>
-        </div>
+        </a>
     </div>
 
     <div class="two-column">
-        <div class="two-col-item">
+        <a href="/dashboard/{{deviceID}}/history-temp" class="two-col-item">
             <span class="card-title pointer">
                 <h5>Temperature</h5>
             </span>
             <h1 id="temp"></h1>
-        </div>
-        <div class="two-col-item">
+        </a>
+        <a href="/dashboard/{{deviceID}}/history-humd" class="two-col-item">
             <span class="card-title pointer">
                 <h5>Humidity</h5>
             </span>
             <h1 id="humd">69%</h1>
-        </div>
+        </a>
     </div>
 
     <div class="two-column">
-        <div class="two-col-item">
+        <a href="/dashboard/{{deviceID}}/history-drink" class="two-col-item">
             <span class="card-title pointer">
                 <h5>Drink</h5>
             </span>
             <h2 id="drink">Unavailable</h2>
-        </div>
-        <div class="two-col-item">
+        </a>
+        <a href="/dashboard/{{deviceID}}/history-food" class="two-col-item">
             <span class="card-title pointer">
                 <h5>Food</h5>
             </span>
             <h2 id="food">Available</h2>
-        </div>
+        </a>
     </div>
 
-    <div class="one-column">
+    <a href="/dashboard/{{deviceID}}/history-uv" class="one-column">
         <h5>UV Light</h5>
         <h1 id="uv">ON</h1>
-    </div>
+    </a>
 </div>
