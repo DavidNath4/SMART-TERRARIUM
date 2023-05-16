@@ -52,17 +52,19 @@ module.exports.mqttSubscribe = (io) => {
                 throw new Error("Device not found!");
             }
 
+            const sensorData = {
+                temp: temp,
+                humd: humd,
+                uv: stringToBool(uv),
+                food: stringToBool(food),
+                drink: stringToBool(drink)
+            };
+
             const updateData = await prisma.device.update({
                 where: {
                     deviceID: deviceId
                 },
-                data: {
-                    temp: temp,
-                    humd: humd,
-                    uv: stringToBool(uv),
-                    food: stringToBool(food),
-                    drink: stringToBool(drink)
-                }
+                data: sensorData
             });
 
             const lastData = await prisma.history.findFirst({
@@ -76,52 +78,44 @@ module.exports.mqttSubscribe = (io) => {
                 }
             });
 
+            const histSensorData = {
+                temp: temp,
+                humd: humd,
+                uv: stringToBool(uv),
+                food: stringToBool(food),
+                drink: stringToBool(drink),
+                Device: {
+                    connect: {
+                        deviceID: deviceId
+                    }
+                }
+            };
+
             if (lastData === null) {
                 const historyData = await prisma.history.create({
-                    data: {
-                        temp: temp,
-                        humd: humd,
-                        uv: stringToBool(uv),
-                        food: stringToBool(food),
-                        drink: stringToBool(drink),
-                        Device: {
-                            connect: {
-                                deviceID: deviceId
-                            }
-                        }
-                    }
+                    data: histSensorData
                 });
             }
 
 
             if (lastData !== null) {
                 const timeDiff = (Date.now() - lastData.createdAt) / 1000 / 60;
-                if (timeDiff >= 1) {
+                if (timeDiff >= 0.1) {
                     const historyData = await prisma.history.create({
-                        data: {
-                            temp: temp,
-                            humd: humd,
-                            uv: stringToBool(uv),
-                            food: stringToBool(food),
-                            drink: stringToBool(drink),
-                            Device: {
-                                connect: {
-                                    deviceID: deviceId
-                                }
-                            }
-                        }
+                        data: histSensorData
                     });
                 }
             }
 
-            io.emit(`mqtt-data/${deviceId}`, {
+            const emitData = {
                 deviceId,
                 temp,
                 humd,
                 uv: stringToBool(uv),
                 food: stringToBool(food),
-                drink: stringToBool(drink)
-            });
+                drink: stringToBool(drink),
+            };
+            io.emit(`mqtt-data/${deviceId}`, emitData);
 
         } catch (error) {
             console.log(error.message);
