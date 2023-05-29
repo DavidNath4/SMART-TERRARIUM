@@ -15,6 +15,7 @@ const {
     history_food,
     logoutUser,
     dashboard,
+    schedule
 } = require("./controllers");
 
 const router = require("express").Router();
@@ -30,5 +31,6 @@ router.get("/dashboard/:id/history-uv", loginRequired, verifyToken, history_uv);
 router.get("/dashboard/:id/history-drink", loginRequired, verifyToken, history_drink);
 router.get("/dashboard/:id/history-food", loginRequired, verifyToken, history_food);
 router.get("/dashboard/:id", loginRequired, verifyToken, dashboard);
+router.get("/dashboard/:id/schedule", loginRequired, verifyToken, schedule);
 
 module.exports = router;

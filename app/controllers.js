@@ -169,6 +169,24 @@ module.exports.dashboard = async (req, res) => {
     res.render("index", data);
 };
 
+module.exports.schedule = async (req, res) => {
+    const userId = await getAuthorizationToken(req);
+    const { username } = await prisma.user.findUnique({
+        where: { id: userId.id },
+        select: { username: true },
+    });
+    const deviceID = req.params.id;
+    const deviceName = await getDeviceName(deviceID);
+    const data = {
+        styles: ["/style/schedule.css"],
+        scripts: ["/js/schedule.js"],
+        username,
+        deviceName,
+        deviceID
+    };
+    res.render("schedule", data);
+};
+
 const getDeviceName = async (deviceID) => {
     const { deviceName } = await prisma.device.findUnique({
         where: {

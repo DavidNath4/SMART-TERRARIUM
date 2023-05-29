@@ -1,6 +1,8 @@
 .dashboard-status {
     background: var(--palette-4);
-    border-radius: 15px;
+    /* border-radius: 15px; */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     box-sizing: border-box;
     min-height: calc(100vh - 200px);
     padding: 15px;

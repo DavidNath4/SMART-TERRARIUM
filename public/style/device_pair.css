@@ -119,6 +119,9 @@ button[type=button]:hover {
     width: 1.5rem;
 }
 
+main{
+    padding-bottom: 2rem;
+}
 @media only screen and (max-width: 576px) {
     button[type=button] {
         height: 40px;
