@@ -1,6 +1,7 @@
 const socket = io();
 const idContainer = document.getElementById("device-id");
 const deviceID = idContainer.getAttribute("data-id");
+const shortDeviceId = document.getElementById("deviceId").getAttribute("data-id");
 
 const firstFeedContainer = document.getElementById("first-feed");
 const secondFeedContainer = document.getElementById("second-feed");
@@ -34,3 +35,18 @@ socket.on(`mqtt-data/${deviceID}`, (data) => {
 });
 
 generalDataLoader({ url: `/device/detail/${deviceID}`, func: detailLoader });
+
+idContainer.addEventListener("blur", async function () {
+
+    const resp = await httpRequest({
+        url: `/device/rename/${shortDeviceId}`, method: "PUT", body: {
+            "deviceName": idContainer.textContent
+        }
+    });
+    if (resp.success) {
+        alert("Success update device name");
+    }
+    if (!resp.success) {
+        alert("Failed update device name");
+    }
+}, false);

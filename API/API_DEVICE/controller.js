@@ -5,6 +5,9 @@ const client = require("../API_SCHEDULE/connection/defConnection");
 const { resSuccess, resError } = require("../../services/responseHandler");
 let lastStatusTime = new Date();
 
+const topic = process.env.TOPIC_STAT;
+
+
 // function intial device
 const device_init = async (req, res) => {
     const { deviceID, devicePIN } = {
@@ -43,7 +46,7 @@ const device_pair = async (req, res) => {
                 deviceID: deviceID,
             },
             data: {
-                deviceName: deviceID + "TERRARIUM",
+                deviceName: deviceID + " TERRARIUM",
                 User: {
                     connect: {
                         id: req.id,
@@ -51,6 +54,8 @@ const device_pair = async (req, res) => {
                 },
             },
         });
+        let uniqueTopic = topic + deviceID;
+        client.publish(uniqueTopic, "true");
         return resSuccess({
             res,
             title: 'Device Successfully Paired!',
@@ -151,6 +156,8 @@ const device_unpair = async (req, res) => {
                 },
             },
         });
+        let uniqueTopic = topic + deviceID;
+        client.publish(uniqueTopic, "false");
         return resSuccess({
             res,
             title: 'Device Successfully Unpaired!',
@@ -205,7 +212,7 @@ const device_status = async (req, res) => {
 
         const isOnline =
             lastStatusTime &&
-            Date.now() - lastStatusTime.getTime() < 5 * 60 * 1000;
+            Date.now() - lastStatusTime.getTime() < 1 * 60 * 1000;
 
         const dataUpdate = await prisma.device.update({
             where: {

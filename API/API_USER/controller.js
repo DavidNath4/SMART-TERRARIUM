@@ -101,6 +101,50 @@ const updateUser = async (req, res) => {
     }
 };
 
+const updateUserOnly = async (req, res) => {
+    try {
+        const id = req.id;
+        const { username, email, fullName } = req.body;
+
+        const data = await prisma.user.update({
+            where: {
+                id: id,
+            },
+            data: {
+                username: username,
+                email: email,
+                profile: {
+                    update: {
+                        fullName: fullName || null,
+                    },
+                },
+            },
+            select: {
+                id: true,
+                username: true,
+                email: true,
+                profile: {
+                    select: {
+                        fullName: true,
+                    },
+                },
+            },
+        });
+        return resSuccess({
+            res,
+            title: 'User successfully updated!',
+            data: data
+        });
+
+    } catch (error) {
+        return resError({
+            res,
+            title: 'Error updating user!',
+            errors: error.message
+        });
+    }
+};
+
 const loginUser = async (req, res) => {
     try {
         const { emailOrUsername, password } = req.body;
@@ -217,5 +261,6 @@ module.exports = {
     loginUser,
     logoutUser,
     updateUser,
+    updateUserOnly,
     detail,
 };

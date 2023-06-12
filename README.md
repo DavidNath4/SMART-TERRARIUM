@@ -61,3 +61,13 @@ commit 5/29/2023
 update:
 
 - create schedule UI
+
+commit 6/12/2023
+update:
+
+- add and repair dashboard, profile, schedule html and js
+- add logic on dashboard, profile, schedule javascript
+- add and fix repair device
+- add and fix repair schedule
+- add and fix repair schedule router
+- repair function destruct

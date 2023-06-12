@@ -43,7 +43,7 @@ model Device {
   drink      Boolean?
   schedule1  String?
   schedule2  String?
-  isAuto     Boolean?
+  isAuto     String?
   isOnline   Boolean?
   User       User?     @relation(fields: [userId], references: [id])
   userId     String?

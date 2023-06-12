@@ -18,7 +18,7 @@ const publishSchedule = async (req, res) => {
             data: {
                 schedule1: schedule1,
                 schedule2: schedule2,
-                isAuto: stringToBool(mode)
+                isAuto: mode
             }
         });
 
@@ -28,15 +28,16 @@ const publishSchedule = async (req, res) => {
                 error: "Device not found"
             });
         }
-        // const [front, , back] = topic.split("/");
-        // const uniqueTopic = `${front}/${deviceID}/${back}`;
-        // const message = `${dateToInteger(schedule1)}#${dateToInteger(schedule2)}#${mode}`;
-        const uniqueTopic = generateTopicWithDeviceID(topic, deviceID);
+        // const uniqueTopic = generateTopicWithDeviceID(topic, deviceID);
         const message = generateMessage(schedule1, schedule2, mode);
 
 
+        // client.publish(uniqueTopic, message);
+        // console.log(topic);
+        console.log(topic + deviceID);
+        let uniqueTopic = topic + deviceID;
         client.publish(uniqueTopic, message);
-
+        console.log(message);
         return res.status(200).json({
             msg: "sucess",
             data: updateData,

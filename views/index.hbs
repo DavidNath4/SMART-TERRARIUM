@@ -1,15 +1,16 @@
 <div class="dashboard-status">
-    <h2 id="device-id" data-id="{{deviceID}}">{{deviceName}}</h2>
+    <p class="hidden" data-id="{{deviceID}}" id="deviceId">{{deviceID}}</p>
+    <h2 id="device-id" data-id="{{deviceID}}" contenteditable="true">{{deviceName}}</h2>
     <div class="two-column">
     
-        <a href="" class="two-col-item">
+        <a href="/dashboard/{{deviceID}}/schedule" class="two-col-item">
             <span class="card-title pointer">
                 <h5>First Feed</h5>
                 <img src="/image/edit.svg" alt="">
             </span>
             <h1 id="first-feed"></h1>
         </a>
-        <a class="two-col-item">
+        <a href="/dashboard/{{deviceID}}/schedule" class="two-col-item">
             <span class="card-title pointer">
                 <h5>Second Feed</h5>
                 <img src="/image/edit.svg" alt="">

@@ -90,10 +90,22 @@
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
     width: 80%;
+    margin-bottom: 20px;
+}
+
+#auto{
+    background: var(--palette-3);
 }
 
 main{
     padding-bottom: 2rem;
+}
+
+.mode{
+    display: block;
+    margin: 0 auto 20px auto;
+    color: var(--palette-4);
+    width: 80%;
 }
 
 /* Chrome, Safari, Edge, Opera */

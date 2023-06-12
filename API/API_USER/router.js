@@ -62,4 +62,17 @@ router.post(
     user.updateUser
 );
 
+router.post(
+    "/updateOnly",
+    verifyToken,
+    body("username")
+        .isLength({ min: 6 })
+        .withMessage("Username minimum is 6 character"),
+    body("email").isEmail().withMessage("Please enter valid email"),
+    formChecker,
+    isUsernameAvailable,
+    isEmailAvailable,
+    user.updateUserOnly
+);
+
 module.exports = router;
