@@ -187,6 +187,15 @@ module.exports.schedule = async (req, res) => {
     res.render("schedule", data);
 };
 
+module.exports.forgotPass = (req, res) => {
+    const data = {
+        styles: ["/style/login.css"],
+        scripts: ["/js/forgotPass.js"],
+        layout: "layout/authBase",
+    };
+    res.render("forgotPass", data);
+};
+
 const getDeviceName = async (deviceID) => {
     const { deviceName } = await prisma.device.findUnique({
         where: {

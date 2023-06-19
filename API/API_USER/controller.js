@@ -1,9 +1,10 @@
 const prisma = require("../../prisma/client");
-const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const { comparePassword, hashPassword } = require("../../functions/hashing");
 const { generateToken } = require("../../functions/authorization");
 const { resSuccess, resError } = require("../../services/responseHandler");
+const { sendEmail } = require("../../services/mailService");
 
 const registerUser = async (req, res) => {
     try {
@@ -256,6 +257,73 @@ const detail = async (req, res) => {
     }
 };
 
+const forgotPassword = async (req, res) => {
+    try {
+        const originalToken = crypto.randomBytes(32).toString("hex");
+        const encrryptedToken = crypto.createHash("sha256").update(originalToken).digest("hex");
+        const { email } = req.body;
+
+        const user = await prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                token: encrryptedToken,
+                tokenExpiredAt: new Date(new Date().getTime() + 5 * 60000)
+            }
+        });
+
+        sendEmail(email, "Forgot Password Token", originalToken);
+
+        return resSuccess({
+            res,
+            title: 'Successfully generate token for forgot password!',
+            data: {
+                originalToken: originalToken,
+                encrryptedToken: encrryptedToken
+            }
+        });
+
+    } catch (error) {
+        return resError({
+            res,
+            title: 'Server Error!',
+            errors: error
+        });
+
+    }
+};
+
+const resetPassword = async (req, res) => {
+    try {
+        const { password } = req.body;
+        const hashedPassword = await hashPassword(password);
+
+        const updatePass = await prisma.user.update({
+            where: {
+                id: req.userTokenId
+            },
+            data: {
+                password: hashedPassword,
+                token: null,
+                tokenExpiredAt: null
+            }
+        });
+
+        return resSuccess({
+            res,
+            title: 'Successfully reset password!',
+            data: updatePass
+        });
+    } catch (error) {
+        return resError({
+            res,
+            title: 'Error reset password!',
+            errors: error
+        });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
@@ -263,4 +331,6 @@ module.exports = {
     updateUser,
     updateUserOnly,
     detail,
+    forgotPassword,
+    resetPassword
 };

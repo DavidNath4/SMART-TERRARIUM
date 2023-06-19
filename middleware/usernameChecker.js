@@ -1,4 +1,3 @@
-const { getAuthorizationToken } = require("../functions/authorization");
 const prisma = require("../prisma/client");
 const { resError } = require("../services/responseHandler");
 

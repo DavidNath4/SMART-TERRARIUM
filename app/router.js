@@ -15,13 +15,15 @@ const {
     history_food,
     logoutUser,
     dashboard,
-    schedule
+    schedule,
+    forgotPass
 } = require("./controllers");
 
 const router = require("express").Router();
 
 router.get("/", loginRequired, verifyToken, device_pair);
 router.get("/login", logoutRequired, login);
+router.get("/forgotPass", logoutRequired, forgotPass);
 router.get("/logout", loginRequired, logoutUser);
 router.get("/register", logoutRequired, register);
 router.get("/profile", loginRequired, verifyToken, profile);

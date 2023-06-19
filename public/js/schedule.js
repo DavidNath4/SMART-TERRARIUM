@@ -85,8 +85,8 @@ autoBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     const resp = await httpRequest({
         url: `/schedule/publish/${deviceId}`, method: "PUT", body: {
-            "schedule1": "8:0",
-            "schedule2": "16:0",
+            "schedule1": "08:00",
+            "schedule2": "16:00",
             "mode": "AUTO"
         }
     });

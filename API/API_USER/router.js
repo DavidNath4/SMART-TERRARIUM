@@ -7,6 +7,7 @@ const {
 const { isPasswordConfirmed } = require("../../middleware/passwordChecker");
 const {
     isEmailExist,
+    isEmailExist2,
     isEmailAvailable,
 } = require("../../middleware/emailChecker");
 const { formChecker } = require("../../middleware/formChecker");
@@ -15,6 +16,7 @@ const {
     loginRequired,
     logoutRequired,
     checkSession,
+    isTokenValid,
 } = require("../../middleware/authentication");
 
 const router = require("express").Router();
@@ -74,5 +76,17 @@ router.post(
     isEmailAvailable,
     user.updateUserOnly
 );
+
+router.post("/forgot-password", logoutRequired, isEmailExist2, user.forgotPassword);
+
+router.post("/reset-password", logoutRequired, isTokenValid,
+    body("password")
+        .isStrongPassword()
+        .withMessage(
+            "Password must have at least 8 characters, have a combination of numbers, uppercase, lowercase letters and unique characters"
+        ),
+    formChecker,
+    isPasswordConfirmed,
+    user.resetPassword);
 
 module.exports = router;

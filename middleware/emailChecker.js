@@ -18,6 +18,23 @@ const isEmailExist = async (req, res, next) => {
     }
 };
 
+const isEmailExist2 = async (req, res, next) => {
+    try {
+        const email = await prisma.user.findUnique({
+            where: {
+                email: req.body.email,
+            },
+        });
+        if (email) {
+            return next();
+        }
+        throw new Error('Email doesnt exists!');
+    } catch (error) {
+        console.log(error);
+        return resError({ res, title: 'Bad request!', errors: error.message });
+    }
+};
+
 const isEmailAvailable = async (req, res, next) => {
     try {
         const { id } = req.id;
@@ -38,4 +55,4 @@ const isEmailAvailable = async (req, res, next) => {
     }
 };
 
-module.exports = { isEmailExist, isEmailAvailable };
+module.exports = { isEmailExist, isEmailExist2, isEmailAvailable };
