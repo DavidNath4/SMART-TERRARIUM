@@ -1,3 +1,4 @@
+const { isTokenValid } = require("../middleware/authentication");
 const {
     loginRequired,
     logoutRequired,
@@ -16,14 +17,16 @@ const {
     logoutUser,
     dashboard,
     schedule,
-    forgotPass
+    forgotPass,
+    resetPass
 } = require("./controllers");
 
 const router = require("express").Router();
 
 router.get("/", loginRequired, verifyToken, device_pair);
 router.get("/login", logoutRequired, login);
-router.get("/forgotPass", logoutRequired, forgotPass);
+router.get("/forgot-password", logoutRequired, forgotPass);
+router.get("/reset-password/:token", logoutRequired, isTokenValid, resetPass);
 router.get("/logout", loginRequired, logoutUser);
 router.get("/register", logoutRequired, register);
 router.get("/profile", loginRequired, verifyToken, profile);

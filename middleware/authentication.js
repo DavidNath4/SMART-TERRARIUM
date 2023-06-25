@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const { hashPassword } = require("../functions/hashing");
 const prisma = require("../prisma/client");
 const crypto = require("crypto");
+const { resError } = require("../services/responseHandler");
 
 const verifyToken = async (req, res, next) => {
     const token = req.cookies.Authorization;
@@ -51,34 +52,37 @@ const logoutRequired = (req, res, next) => {
 };
 
 const isTokenValid = async (req, res, next) => {
+    const token = req.body.token || req.params.token;
+    const encrryptedToken = crypto.createHash("sha256").update(token).digest("hex");
     try {
-        const { token } = req.body;
-        const encrryptedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-        const userToken = await prisma.user.findUniqueOrThrow({
+        const userToken = await prisma.user.findUnique({
             where: {
                 token: encrryptedToken
             },
         });
 
+        if (userToken == null) throw "Your token is missing!";
         if (new Date() > userToken.tokenExpiredAt) throw "Token is expired";
 
         req.userTokenId = userToken.id;
         return next();
 
     } catch (error) {
-        await prisma.user.update({
-            where: {
-                token: encrryptedToken
-            },
-            data: {
-                token: null,
-                tokenExpiredAt: null
-            }
-        });
+        if (error != "Your token is missing!") {
+            await prisma.user.update({
+                where: {
+                    token: encrryptedToken
+                },
+                data: {
+                    token: null,
+                    tokenExpiredAt: null
+                }
+            });
+        }
         return resError({
             res,
-            title: 'Server Error!',
+            title: 'Token not valid!',
             errors: error
         });
     }

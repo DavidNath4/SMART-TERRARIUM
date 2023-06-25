@@ -29,8 +29,8 @@ module.exports.mqttSubscribe = (io) => {
             console.log(message);
             // console.log(deviceId);
 
-
             const [id, temp, humd, food, drink, uv] = message;
+            // const [delimiter, id, temp, humd, food, drink, uv, packetCount] = message;
             // const [delimiter,id, uv, temp, humd, food, drink] = message;
             // console.log(id, uv, temp, humd, food, drink);
 

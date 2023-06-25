@@ -273,7 +273,8 @@ const forgotPassword = async (req, res) => {
             }
         });
 
-        sendEmail(email, "Forgot Password Token", originalToken);
+        const urlOriginalToken = `${req.protocol}://${req.get("host")}/reset-password/${originalToken}`;
+        sendEmail(email, "Forgot Password Token", urlOriginalToken);
 
         return resSuccess({
             res,

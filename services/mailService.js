@@ -8,13 +8,16 @@ const sendEmail = async (user_mail, subject, text) => {
             user: process.env.MAIL_USER, // generated ethereal user
             pass: process.env.MAIL_SECRET, // generated ethereal password
         },
+        tls: {
+            rejectUnauthorized: false
+        }
     });
 
     let info = await transporter.sendMail({
         from: '"Smart Terrarium Authentication Service" <no-replay@smartterrariumservice.com>', // sender address
         to: user_mail, // list of receivers
         subject,
-        text
+        html: `<a href = '${text}' >reset your password :D</a>`
     }, function (err, info) {
         if (err) {
             console.log(err);

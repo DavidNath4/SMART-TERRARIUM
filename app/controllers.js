@@ -190,10 +190,19 @@ module.exports.schedule = async (req, res) => {
 module.exports.forgotPass = (req, res) => {
     const data = {
         styles: ["/style/login.css"],
-        scripts: ["/js/forgotPass.js"],
+        scripts: ["/js/forgot_password.js"],
         layout: "layout/authBase",
     };
-    res.render("forgotPass", data);
+    res.render("forgot_pass", data);
+};
+
+module.exports.resetPass = (req, res) => {
+    const data = {
+        styles: ["/style/login.css"],
+        scripts: ["/js/reset_password.js"],
+        layout: "layout/authBase",
+    };
+    res.render("reset", data);
 };
 
 const getDeviceName = async (deviceID) => {

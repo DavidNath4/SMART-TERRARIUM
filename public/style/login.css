@@ -34,7 +34,7 @@
 }
 
 input[type=text],
-input[type=password] {
+input[type=password],input[type=email] {
     background: var(--palette-3);
     border: none;
     border-radius: 15px;
@@ -46,7 +46,8 @@ input[type=password] {
 }
 
 input[type=text]:focus,
-input[type=password]:focus {
+input[type=password]:focus,
+input[type=email]:focus {
     border: 2px var(--palette-1) solid;
 }
 
