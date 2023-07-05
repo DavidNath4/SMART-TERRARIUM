@@ -78,3 +78,8 @@ update:
 - add forget password function
 - add token adn token expired in prisma
 - add API for forget password function
+
+commit 7/5/2023
+update:
+
+- finnish forgot password feature
