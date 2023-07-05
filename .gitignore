@@ -1,4 +1,6 @@
 node_modules
 test
+yarn.lock
 # Keep environment variables out of version control
 .env
+.env.example
