@@ -7,7 +7,7 @@ const terrariumContainer = document.getElementById("form-container");
 const deviceTemplate = (uv, date) => {
     return `
         <div class="log-container">
-            <p class="value">${uv ? 'UV Light ON' : 'UV Light ON'}</p>
+            <p class="value">${uv ? 'UV Light ON' : 'UV Light OFF'}</p>
             <p class="time">${date}</p>
         </div>
     `;

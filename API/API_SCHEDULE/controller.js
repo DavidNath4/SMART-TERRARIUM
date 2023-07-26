@@ -10,6 +10,8 @@ const publishSchedule = async (req, res) => {
         let { schedule1, schedule2, mode } = req.body;
         const { deviceID } = req.params;
         // console.log(deviceID);
+        schedule1 = convertTimeToBackendFormat(schedule1);
+        schedule2 = convertTimeToBackendFormat(schedule2);
 
         const updateData = await prisma.device.update({
             where: {
@@ -57,7 +59,16 @@ const publishSchedule = async (req, res) => {
 
 };
 
+function convertTimeToBackendFormat(time) {
+    const timePattern = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
 
+    if (!timePattern.test(time)) {
+        throw new Error("Invalid time format. Please use 24-hour format (hh:mm).");
+    }
+
+    const [hour, minutes] = time.split(":");
+    return `${Number(hour)}:${Number(minutes)}`;
+}
 
 module.exports = {
     publishSchedule

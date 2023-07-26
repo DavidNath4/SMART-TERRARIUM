@@ -1,16 +1,21 @@
 const { dateToInteger } = require("./timeConvertion");
+const crypto = require('crypto');
 
 const destructureMessage = (string) => {
     // let result = string.replace("[P]", "");
-    const pairs = string.split('#');
-    return pairs;
+    let decryptedMessage = '';
+    const key = 'abcdefghijklmnop';
+    decryptedMessage = decryptMessage(string, key);
+    console.log(decryptedMessage);
+    const pairs = decryptedMessage.split('#');
+    return [pairs, decryptedMessage];
 };
 
 
 const checkMessage = (message) => {
 
-    const format = /^[\w\d]{6}#(\d+(\.\d+)?)#(\d+(\.\d+)?)#(true|false)#(true|false)#(true|false)$/;
-    // const format = /^[\w\d]{6}#(true|false)#(\d+(\.\d+)?)#(\d+(\.\d+)?)#(true|false)#(true|false)#(\d+)$/;
+    // const format = /^[\w\d]{6}#(\d+(\.\d+)?)#(\d+(\.\d+)?)#(true|false)#(true|false)#(true|false)$/;
+    const format = /^\[P\]#(\w{6})#(\d+(\.\d+)?)#(\d+(\.\d+)?)#(true|false)#(true|false)#(true|false)#(\d+)$/;
     if (format.test(message)) {
         return true;
     }
@@ -35,6 +40,25 @@ function generateTopicWithDeviceID(topic, deviceID) {
 function generateMessage(schedule1, schedule2, mode) {
     // return `${dateToInteger(schedule1)}#${dateToInteger(schedule2)}#${mode}`;
     return `${schedule1}#${schedule2}#${mode}`;
+}
+
+function decrypt(cipherText, key) {
+    const decipher = crypto.createDecipheriv('aes-128-ecb', key, '');
+    decipher.setAutoPadding(false);
+    let decrypted = decipher.update(cipherText, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+
+function decryptMessage(encryptedMessage, key) {
+    const parts = encryptedMessage.split('#');
+    const decryptedParts = parts.map(part => {
+        const decryptedPart = decrypt(part, key);
+
+        return decryptedPart.replace(/@+$/, '');
+    });
+    const decryptedMessage = decryptedParts.join('');
+    return decryptedMessage;
 }
 
 module.exports = {

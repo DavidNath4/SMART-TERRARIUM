@@ -1,44 +1,42 @@
 #form-container {
-    background: var(--palette-4);
-    border-radius: 2rem 2rem 0 0;
-    min-height: calc(100vh - 150px);
-    padding: 1.5rem;
-    text-align: center;
+  background: var(--palette-4);
+  border-radius: 2rem 2rem 0 0;
+  min-height: calc(100vh - 150px);
+  padding: 1.5rem;
+  text-align: center;
 }
 
 .log-container {
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-    margin-top: 1rem;
-    padding: 1em;
-    width: 400px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 1rem;
+  padding: 1em;
+  width: 400px;
 }
 
 .log-container:nth-child(even) {
-    background-color: var(--palette-3);
+  background-color: var(--palette-3);
 }
 
 .log-container:nth-child(odd) {
-    background-color: var(--palette-2);
-    color: var(--palette-4);
+  background-color: var(--palette-2);
+  color: var(--palette-4);
 }
 
 .log-container .value {
-    font-weight: 800;
+  font-weight: 800;
 }
 
 .log-container .time {
-    font-weight: 400;
-    text-align: right;
+  font-weight: 400;
+  text-align: right;
 }
 
-
 @media only screen and (max-width: 576px) {
-    .log-container {
-        height: 30px;
-        width: 320px;
-    }
-
+  .log-container {
+    height: 30px;
+    width: 320px;
+  }
 }

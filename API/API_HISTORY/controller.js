@@ -16,6 +16,9 @@ const temperatureLog = async (req, res) => {
             select: {
                 temp: true,
                 createdAt: true
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         if (data.length === 0) {
@@ -41,6 +44,9 @@ const humidityLog = async (req, res) => {
             select: {
                 humd: true,
                 createdAt: true
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         if (data.length === 0) {
@@ -66,6 +72,9 @@ const drinkLog = async (req, res) => {
             select: {
                 drink: true,
                 createdAt: true
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         if (data.length === 0) {
@@ -91,6 +100,9 @@ const foodLog = async (req, res) => {
             select: {
                 food: true,
                 createdAt: true
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         if (data.length === 0) {
@@ -116,6 +128,9 @@ const uvLog = async (req, res) => {
             select: {
                 uv: true,
                 createdAt: true
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
         if (data.length === 0) {

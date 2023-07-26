@@ -13,8 +13,11 @@ const uvContainer = document.getElementById("uv");
 
 
 const detailLoader = (data) => {
-    firstFeedContainer.textContent = data.schedule1;
-    secondFeedContainer.textContent = data.schedule2;
+    const schedule1 = data.schedule1 !== null ? data.schedule1 : '08:00';
+    const schedule2 = data.schedule2 !== null ? data.schedule2 : '16:00';
+
+    firstFeedContainer.textContent = formatTime(schedule1);
+    secondFeedContainer.textContent = formatTime(schedule2);
     tempContainer.textContent = `${data.temp}\xB0C`;
     humdContainer.textContent = data.humd + "%";
     drinkContainer.textContent = data.drink ? 'Available' : 'Unavailable';
@@ -26,8 +29,8 @@ const detailLoader = (data) => {
 socket.on(`mqtt-data/${deviceID}`, (data) => {
     console.log('Received MQTT data:', data);
     // do something with the data
-    tempContainer.textContent = `${data.temp}\xB0C`;
-    humdContainer.textContent = data.humd + "%";
+    tempContainer.textContent = data.temp !== null ? `${data.temp}\xB0C` : '0\xB0C';
+    humdContainer.textContent = data.humd !== null ? `${data.humd}%` : '0%';
     drinkContainer.textContent = data.drink ? 'Available' : 'Unavailable';
     foodContainer.textContent = data.food ? 'Available' : 'Unavailable';
     uvContainer.textContent = data.uv ? 'ON' : 'OFF';
@@ -50,3 +53,11 @@ idContainer.addEventListener("blur", async function () {
         alert("Failed update device name");
     }
 }, false);
+
+function formatTime(timeStr) {
+    let [hours, minutes] = timeStr.split(":");
+    hours = hours.padStart(2, "0");
+    minutes = minutes.padStart(2, "0");
+    const formattedTime = `${hours}:${minutes}`;
+    return formattedTime;
+}

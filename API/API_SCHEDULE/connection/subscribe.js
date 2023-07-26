@@ -24,17 +24,17 @@ module.exports.mqttSubscribe = (io) => {
 
         try {
             const deviceId = topic.split("/")[2];
-            const message = destructureMessage(payload.toString());
+            const [message, decrypt] = destructureMessage(payload.toString());
             // console.log(payload.toString());
             console.log(message);
             // console.log(deviceId);
 
-            const [id, temp, humd, food, drink, uv] = message;
-            // const [delimiter, id, temp, humd, food, drink, uv, packetCount] = message;
+            // const [id, temp, humd, food, drink, uv] = message;
+            const [delimiter, id, temp, humd, food, drink, uv, packetCount] = message;
             // const [delimiter,id, uv, temp, humd, food, drink] = message;
             // console.log(id, uv, temp, humd, food, drink);
 
-            if (!checkMessage(payload.toString())) {
+            if (!checkMessage(decrypt)) {
                 throw new Error("Invalid payload format");
             }
 
