@@ -1,15 +1,23 @@
+body {
+    background: var(--palette-2);
+}
+
+main {
+    box-shadow: none !important;
+}
+
 #title {
     align-items: center;
     color: var(--palette-4);
     display: flex;
     height: 150px;
     justify-content: center;
+    margin-bottom: 30px;
 }
 
 #form-container {
     background: var(--palette-4);
-    border-radius: 2rem 2rem 0 0;
-    min-height: calc(100vh - 150px);
+    border-radius: 2rem;
     padding: 1.5rem;
 }
 
@@ -83,6 +91,17 @@ button[type=button]:hover {
 }
 
 @media only screen and (max-width: 576px) {
+    #title {
+        margin-bottom: 0px !important;
+    }
+    
+    #form-container {
+        background: var(--palette-4);
+        border-radius: 2rem 2rem 0 0;
+        min-height: calc(100vh - 150px);
+        padding: 1.5rem;
+    }
+    
     button[type=button]:hover {
         background: var(--palette-2);
         color: var(--palette-4);
