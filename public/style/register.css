@@ -1,3 +1,11 @@
+body {
+    background: var(--palette-2);
+}
+
+main {
+    box-shadow: none !important;
+}
+
 #title {
     align-items: center;
     color: var(--palette-4);
@@ -8,8 +16,7 @@
 
 #form-container {
     background: var(--palette-4);
-    border-radius: 2rem 2rem 0 0;
-    min-height: calc(100vh - 150px);
+    border-radius: 2rem;
     padding: 1.5rem;
 }
 
