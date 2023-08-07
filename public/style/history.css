@@ -1,9 +1,18 @@
 #form-container {
   background: var(--palette-4);
-  border-radius: 2rem 2rem 0 0;
-  min-height: calc(100vh - 150px);
+  border-radius: 2rem;
+  min-height: 700px;
   padding: 1.5rem;
   text-align: center;
+}
+
+body {
+  background: var(--palette-2);
+}
+
+main {
+  box-shadow: none !important;
+  width: 80%;
 }
 
 .log-container {
@@ -35,6 +44,14 @@
 }
 
 @media only screen and (max-width: 576px) {
+  #form-container {
+    background: var(--palette-4);
+    border-radius: 2rem 2rem 0 0;
+    min-height: calc(100vh - 150px);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
   .log-container {
     height: 30px;
     width: 320px;
